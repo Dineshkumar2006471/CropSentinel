@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LiveRateBoard from '../components/LiveRateBoard';
 
 const Landing = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [demoInput, setDemoInput] = useState('');
   const [demoResponse, setDemoResponse] = useState<string | null>(null);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
@@ -23,18 +22,12 @@ const Landing = () => {
       });
       const data = await res.json();
       setDemoResponse(data.response);
-    } catch (err) {
+    } catch {
       setDemoResponse("Error connecting to AI backend.");
     } finally {
       setIsDemoLoading(false);
     }
   };
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <div className="min-h-screen bg-kraft-paper text-soil-ink font-body">

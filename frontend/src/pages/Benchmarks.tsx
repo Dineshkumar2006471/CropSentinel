@@ -1,5 +1,5 @@
 import { Activity, Zap, Cpu, Clock, Server } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import AdminLayout from '../components/AdminLayout';
 
 const featureEngData = [

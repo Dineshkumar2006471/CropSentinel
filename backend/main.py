@@ -1,9 +1,9 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import pandas as pd
-import numpy as np
-from typing import Dict, Any, List
+from typing import Dict, Any, Optional, List
+import datetime
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
@@ -25,12 +25,12 @@ app.add_middleware(
 )
 
 # Global variables for data
-df = None
-df_forecast = None
-df_risk = None
-df_mandi = None
-df_commodity = None
-latest_date = None
+df: Optional[pd.DataFrame] = None
+df_forecast: Optional[pd.DataFrame] = None
+df_risk: Optional[pd.DataFrame] = None
+df_mandi: Optional[pd.DataFrame] = None
+df_commodity: Optional[pd.DataFrame] = None
+latest_date: Optional[datetime.datetime] = None
 
 @app.on_event("startup")
 def load_data():
@@ -115,10 +115,12 @@ def get_dashboard_metrics() -> Dict[str, Any]:
 @app.get("/api/dashboard/ai-brief")
 def get_dashboard_ai_brief() -> Dict[str, Any]:
     """Generates AI insights dynamically based on the dataset."""
-    if df_risk is None or df_risk.empty:
-         raise HTTPException(status_code=503, detail="Risk data not loaded yet")
+    if df_risk is None or df_risk.empty or df is None or df.empty:
+         raise HTTPException(status_code=503, detail="Risk or market data not loaded yet")
          
     # Find the row with the highest risk score
+    assert df_risk is not None
+    assert df is not None
     highest_risk_row = df_risk.loc[df_risk['risk_score'].idxmax()]
     high_mandi_id = highest_risk_row['mandi_id']
     high_commodity_id = highest_risk_row['commodity_id']
@@ -144,6 +146,82 @@ def get_dashboard_ai_brief() -> Dict[str, Any]:
         "recommendation": f"Monitor {crop_name} arrivals in {mandi_name} for potential price interventions.",
         "alert": f"{df['Market'].nunique()} markets are currently processing active trade data."
     }
+
+def generate_recommendation(commodity: str, mandi: Optional[str] = None) -> Dict[str, Any]:
+    """Deterministic function that outputs a structured sell/hold/relocate verdict."""
+    if df is None or df.empty:
+        return {"error": "Data not loaded"}
+    
+    crop_lower = str(commodity).lower()
+    crop_data = df[df['Commodity'].str.lower() == crop_lower]
+    
+    if crop_data.empty:
+        return {"error": f"Commodity '{commodity}' not found"}
+        
+    target_mandi_id = None
+    mandi_name = mandi
+    
+    if mandi:
+        mkt_lower = str(mandi).lower()
+        mkt_data = crop_data[crop_data['Market'].str.lower() == mkt_lower]
+        if not mkt_data.empty:
+            crop_data = mkt_data
+            target_mandi_id = mkt_data.iloc[0]['mandi_id']
+            mandi_name = mkt_data.iloc[0]['Market']
+            
+    current_price = crop_data['Modal_Price'].mean() if not crop_data.empty else 0
+    
+    forecast_row = pd.DataFrame()
+    if df_forecast is not None and not df_forecast.empty:
+        f_data = df_forecast[df_forecast['commodity_id'] == crop_lower]
+        if target_mandi_id:
+            f_data = f_data[f_data['mandi_id'] == target_mandi_id]
+        if not f_data.empty:
+            forecast_row = f_data.sort_values('forecast_date', ascending=False).iloc[0]
+            
+    risk_row = pd.DataFrame()
+    if df_risk is not None and not df_risk.empty:
+        r_data = df_risk[df_risk['commodity_id'] == crop_lower]
+        if target_mandi_id:
+            r_data = r_data[r_data['mandi_id'] == target_mandi_id]
+        if not r_data.empty:
+            risk_row = r_data.sort_values('date', ascending=False).iloc[0]
+
+    risk_score = float(risk_row['risk_score']) if not risk_row.empty else 0.0
+    pred_7d = float(forecast_row['predicted_price']) if not forecast_row.empty else float(current_price)
+    freshness = str(forecast_row['data_freshness']) if not forecast_row.empty else "Stale"
+    
+    trend_val = ((pred_7d - current_price) / (current_price or 1)) * 100
+    
+    action = "hold"
+    reason = "Prices are stable."
+    
+    if risk_score > 30 and trend_val < -5:
+        action = "sell"
+        reason = "High risk of price crash and negative 7-day trend."
+    elif trend_val > 5:
+        action = "hold"
+        reason = "Prices are expected to rise over the next 7 days."
+    elif current_price > 0 and pred_7d <= current_price:
+        action = "sell"
+        reason = "Optimal time to sell, prices are expected to decline or stay flat."
+        
+    return {
+        "commodity": commodity.title(),
+        "mandi": str(mandi_name) if mandi_name else "National Average",
+        "current_price": float(current_price),
+        "predicted_price_7d": pred_7d,
+        "trend_pct": float(trend_val),
+        "risk_score": risk_score,
+        "action": action,
+        "reason": reason,
+        "data_freshness": freshness
+    }
+
+@app.get("/api/recommend")
+def get_recommendation(commodity: str, mandi: Optional[str] = None) -> Dict[str, Any]:
+    return generate_recommendation(commodity, mandi)
+
 
 @app.post("/api/ask")
 async def ask_cropsentinel(query: Dict[str, Any]):
@@ -171,23 +249,25 @@ async def ask_cropsentinel(query: Dict[str, Any]):
     context_str = "SYSTEM CONTEXT (DO NOT HALLUCINATE):\n"
     if found_commodities:
         for crop in found_commodities:
-            crop_lower = str(crop).lower()
-            mkt_context = f" in {found_markets[0]}" if found_markets else ""
-            context_str += f"User is asking about: {crop}{mkt_context}.\n"
-            
-            crop_data = df[df['Commodity'].str.lower() == crop_lower]
-            
-            target_mandi_id = None
-            if found_markets:
-                mkt_lower = str(found_markets[0]).lower()
-                mkt_data = crop_data[crop_data['Market'].str.lower() == mkt_lower]
-                if not mkt_data.empty:
-                    crop_data = mkt_data
-                    target_mandi_id = mkt_data.iloc[0]['mandi_id']
-                    
-                    # GEOGRAPHIC RAG: If user asks about alternatives/near, find mandis in same district
-                    if any(w in user_text for w in ["where", "sell", "near", "other", "alternative", "else"]):
+            mandi = found_markets[0] if found_markets else None
+            rec = generate_recommendation(crop, mandi)
+            context_str += f"\nRecommendation Engine Output for {crop}:\n"
+            if "error" not in rec:
+                context_str += f"Action: {rec['action'].upper()}\n"
+                context_str += f"Reason: {rec['reason']}\n"
+                context_str += f"Current Price: ₹{rec['current_price']:.0f}/q\n"
+                context_str += f"Predicted (7d): ₹{rec['predicted_price_7d']:.0f}/q\n"
+                context_str += f"Risk Score: {rec['risk_score']:.1f}\n"
+                context_str += f"Data Freshness: {rec['data_freshness']}\n"
+                
+                # GEOGRAPHIC RAG: If user asks about alternatives/near, find mandis in same district
+                if any(w in user_text for w in ["where", "sell", "near", "other", "alternative", "else"]) and mandi:
+                    crop_lower = str(crop).lower()
+                    crop_data = df[df['Commodity'].str.lower() == crop_lower]
+                    mkt_data = crop_data[crop_data['Market'].str.lower() == str(mandi).lower()]
+                    if not mkt_data.empty:
                         mkt_district = mkt_data.iloc[0].get('district', None)
+                        target_mandi_id = mkt_data.iloc[0]['mandi_id']
                         if mkt_district:
                             alt_mkts = df[(df['Commodity'].str.lower() == crop_lower) & 
                                           (df['district'] == mkt_district) & 
@@ -198,41 +278,6 @@ async def ask_cropsentinel(query: Dict[str, Any]):
                                 for _, am in alt_mkts_list.iterrows():
                                     context_str += f"- {am['Market']}: ₹{am['Modal_Price']}/q\n"
                                 context_str += "\n"
-            
-            current_price = crop_data['Modal_Price'].mean() if not crop_data.empty else 0
-            
-            forecast_row = pd.DataFrame()
-            if df_forecast is not None and not df_forecast.empty:
-                f_data = df_forecast[df_forecast['commodity_id'] == crop_lower]
-                if target_mandi_id:
-                    f_data = f_data[f_data['mandi_id'] == target_mandi_id]
-                if not f_data.empty:
-                    forecast_row = f_data.sort_values('forecast_date', ascending=False).iloc[0]
-                    
-            risk_row = pd.DataFrame()
-            if df_risk is not None and not df_risk.empty:
-                r_data = df_risk[df_risk['commodity_id'] == crop_lower]
-                if target_mandi_id:
-                    r_data = r_data[r_data['mandi_id'] == target_mandi_id]
-                if not r_data.empty:
-                    risk_row = r_data.sort_values('date', ascending=False).iloc[0]
-            
-            if current_price > 0:
-                context_str += f"Current Price: ₹{current_price:.0f}/q\n"
-                
-            if not forecast_row.empty:
-                pred_7d = forecast_row['predicted_price']
-                trend_val = ((pred_7d - current_price) / (current_price or 1)) * 100
-                dir_str = "Up" if trend_val > 0 else "Down"
-                freshness = forecast_row['data_freshness']
-                context_str += f"7-Day Predicted Price: ₹{pred_7d:.0f}/q ({dir_str} {abs(trend_val):.1f}%)\n"
-                if freshness == 'Stale':
-                    context_str += "Note: Limited recent data for this market. Forecast is based on historical data older than 30 days.\n"
-                    
-            if not risk_row.empty:
-                r_score = risk_row['risk_score']
-                risk_lvl = "High Risk" if r_score > 30 else "Moderate Risk" if r_score > 15 else "Low Risk"
-                context_str += f"30-Day Volatility Risk: {r_score:.1f}%\n"
                 
     else:
         # Just give top 5 as general context

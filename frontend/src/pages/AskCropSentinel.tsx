@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { api } from '../services/api';
 import AdminLayout from '../components/AdminLayout';
 
 const AskCropSentinel = () => {
@@ -34,7 +33,7 @@ const AskCropSentinel = () => {
       });
       const data = await response.json();
       setMessages(prev => [...prev, { sender: 'ai', text: data.response }]);
-    } catch (e) {
+    } catch {
       setMessages(prev => [...prev, { sender: 'ai', text: 'Connection Error: Failed to reach the live CropSentinel data engine.' }]);
     } finally {
       setIsProcessing(false);

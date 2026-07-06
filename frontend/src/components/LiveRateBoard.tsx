@@ -32,7 +32,7 @@ const LiveRateBoard = () => {
       }
       setLoading(false);
     })
-    .catch(err => {
+    .catch(() => {
       setError("Unable to connect to live market data.");
       setLoading(false);
     });

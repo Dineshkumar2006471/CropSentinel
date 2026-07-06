@@ -28,7 +28,7 @@ const convertHtmlToReact = (htmlPath, componentName) => {
 
   const voidTags = ['img', 'input', 'hr', 'br', 'source'];
   voidTags.forEach(tag => {
-    const regex = new RegExp(`(<${tag}\\b[^>]*)(?<!\/)>`, 'gi');
+    const regex = new RegExp(`(<${tag}\\b[^>]*)(?<!/)>`, 'gi');
     bodyContent = bodyContent.replace(regex, '$1 />');
   });
 
