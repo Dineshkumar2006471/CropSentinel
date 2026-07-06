@@ -71,8 +71,8 @@ const MandiMap = () => {
               }
             });
           } else {
-            console.warn(`Geocoding failed for ${m.market}: ${status}`);
-            // default to center if failed just to show pin
+            // Geocoding API likely not enabled or rate limited. 
+            // Default to center to ensure the map still works.
             resolve({ ...m, location: defaultCenter });
           }
         });
