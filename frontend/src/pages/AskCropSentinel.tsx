@@ -42,12 +42,12 @@ const AskCropSentinel = () => {
 
   return (
     <AdminLayout>
-      <main className="flex-1 p-32 lg:p-48 max-w-[1400px] h-screen flex flex-col">
+      <main className="flex-1 p-16 md:p-32 lg:p-48 max-w-[1400px] h-[calc(100vh-60px)] lg:h-screen flex flex-col">
         
-        <div className="flex justify-between items-start mb-24 shrink-0">
-          <div className="flex flex-col gap-8">
-            <h1 className="font-display font-bold text-[40px] text-soil-ink leading-none tracking-tight">Ask CropSentinel</h1>
-            <p className="text-[16px] text-stone">Real-time conversational intelligence trained on your mandi data.</p>
+        <div className="flex flex-col lg:flex-row justify-between items-start mb-24 shrink-0">
+          <div className="flex flex-col gap-4 lg:gap-8">
+            <h1 className="font-display font-bold text-[32px] lg:text-[40px] text-soil-ink leading-none tracking-tight">Ask CropSentinel</h1>
+            <p className="text-[14px] lg:text-[16px] text-stone">Real-time conversational intelligence trained on your mandi data.</p>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ const AskCropSentinel = () => {
                 <h2 className="font-display text-[24px] font-bold text-soil-ink mb-8">How can I help you today?</h2>
                 <p className="text-stone text-[14px] mb-32">Ask me about specific crop prices, market volatility, or request a risk analysis for any region.</p>
                 
-                <div className="grid grid-cols-2 gap-16 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 w-full">
                   <button onClick={() => handleSend('What is the price of Tomato?')} className="p-16 border border-stone/20 rounded-[8px] text-left hover:border-board-green hover:bg-board-green/5 transition-colors">
                     <span className="block font-bold text-[14px] text-soil-ink mb-4">Check Prices</span>
                     <span className="block text-[12px] text-stone">"What is the price of Tomato?"</span>
@@ -86,7 +86,7 @@ const AskCropSentinel = () => {
               <>
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[70%] p-16 text-[15px] leading-relaxed shadow-sm ${
+                    <div className={`max-w-[90%] lg:max-w-[70%] p-16 text-[15px] leading-relaxed shadow-sm ${
                       msg.sender === 'user' 
                         ? 'bg-kraft-paper text-soil-ink rounded-[12px] rounded-br-none border border-stone/10' 
                         : 'bg-board-green text-kraft-paper rounded-[12px] rounded-bl-none'

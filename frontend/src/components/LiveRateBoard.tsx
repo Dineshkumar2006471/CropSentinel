@@ -39,7 +39,7 @@ const LiveRateBoard = () => {
   }, []);
 
   return (
-    <div className="w-full bg-board-green h-[120px] flex flex-col justify-center px-32 lg:px-64 relative overflow-hidden border-y border-stone/20">
+    <div className="w-full bg-board-green h-[120px] flex flex-col justify-center px-16 md:px-32 lg:px-64 relative overflow-hidden border-y border-stone/20">
       <div className="text-[#E9DFC4] font-body text-[14px] mb-8 opacity-80">
         Live Rate Board — Data last synced: {lastSynced}
       </div>
@@ -50,7 +50,7 @@ const LiveRateBoard = () => {
         <div className="text-[#BF3C2B] font-data font-bold">{error}</div>
       ) : (
         <div className="flex gap-48 items-center overflow-hidden whitespace-nowrap">
-          <div className="flex animate-[marquee_20s_linear_infinite] gap-48 text-white font-data text-[18px]">
+          <div className="flex animate-marquee gap-48 text-white font-data text-[18px]">
             {forecasts.map((f, i) => (
               <div key={i} className="flex items-center gap-16">
                 <span className="font-bold text-[#E9DFC4]">{f.commodity}</span>

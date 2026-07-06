@@ -52,14 +52,14 @@ const MyTrackers = () => {
 
   return (
     <AdminLayout>
-      <main className="flex-1 p-32 lg:p-48 max-w-[1400px] min-h-screen flex flex-col">
+      <main className="flex-1 p-16 md:p-32 lg:p-48 max-w-[1400px] min-h-[calc(100vh-60px)] lg:min-h-screen flex flex-col">
         
-        <div className="flex justify-between items-start mb-48 shrink-0">
-          <div className="flex flex-col gap-8">
-            <h1 className="font-display font-bold text-[40px] text-soil-ink leading-none tracking-tight">My Trackers</h1>
-            <p className="text-[16px] text-stone">Real-time alerts and tracking for your active commodities.</p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-24 lg:mb-48 shrink-0 gap-16 lg:gap-0">
+          <div className="flex flex-col gap-4 lg:gap-8">
+            <h1 className="font-display font-bold text-[32px] lg:text-[40px] text-soil-ink leading-none tracking-tight">My Trackers</h1>
+            <p className="text-[14px] lg:text-[16px] text-stone">Real-time alerts and tracking for your active commodities.</p>
           </div>
-          <div className="flex gap-16 items-center">
+          <div className="flex gap-8 lg:gap-16 items-center w-full md:w-auto overflow-x-auto pb-4 md:pb-0">
             <button className="flex items-center gap-8 bg-white border border-stone/20 text-soil-ink px-24 py-12 rounded-full font-bold text-[14px] hover:bg-stone/5 transition-colors shadow-sm">
               <span className="material-symbols-outlined text-[20px]">settings</span>
               SMS Settings
@@ -74,7 +74,7 @@ const MyTrackers = () => {
           </div>
         </div>
 
-        <div className="mb-48 bg-white border border-stone/10 rounded-[12px] shadow-sm p-32">
+        <div className="mb-24 lg:mb-48 bg-white border border-stone/10 rounded-[12px] shadow-sm p-16 lg:p-32">
           <h2 className="font-display text-[20px] font-bold text-soil-ink mb-16">Alert history — coming soon</h2>
           <div className="flex flex-col gap-12">
             <div className="flex items-center justify-center p-32 bg-[#F9F9F9] rounded-[8px] border border-stone/10 border-dashed">

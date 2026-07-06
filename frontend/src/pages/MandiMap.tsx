@@ -99,12 +99,12 @@ const MandiMap = () => {
 
   return (
     <AdminLayout>
-      <main className="flex-1 p-32 lg:p-48 max-w-[1400px] h-screen flex flex-col">
+      <main className="flex-1 p-16 md:p-32 lg:p-48 max-w-[1400px] h-[calc(100vh-60px)] lg:h-screen flex flex-col">
         
-        <div className="flex justify-between items-start mb-24 shrink-0">
-          <div className="flex flex-col gap-8">
-            <h1 className="font-display font-bold text-[40px] text-soil-ink leading-none tracking-tight">Mandi Coverage Map</h1>
-            <p className="text-[16px] text-stone">Real-time geospatial tracking of high-volatility markets.</p>
+        <div className="flex flex-col lg:flex-row justify-between items-start mb-24 shrink-0">
+          <div className="flex flex-col gap-4 lg:gap-8">
+            <h1 className="font-display font-bold text-[32px] lg:text-[40px] text-soil-ink leading-none tracking-tight">Mandi Coverage Map</h1>
+            <p className="text-[14px] lg:text-[16px] text-stone">Real-time geospatial tracking of high-volatility markets.</p>
           </div>
         </div>
 

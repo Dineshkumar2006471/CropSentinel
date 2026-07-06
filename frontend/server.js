@@ -1,4 +1,5 @@
 import http from 'http';
+import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8080;
 const PUBLIC_DIR = path.join(__dirname, 'dist');
+const BACKEND_URL = process.env.VITE_API_URL || "http://localhost:8000";
 
 const MIME_TYPES = {
   '.html': 'text/html',
@@ -22,6 +24,36 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+  // If request is for /api, proxy it to the backend
+  if (req.url.startsWith('/api/')) {
+    const targetUrl = new URL(req.url, BACKEND_URL);
+    const clientReq = targetUrl.protocol === 'https:' ? https : http;
+    
+    const headers = { ...req.headers };
+    delete headers.host;
+    
+    const proxyReq = clientReq.request(
+      targetUrl.href,
+      {
+        method: req.method,
+        headers: headers,
+      },
+      (proxyRes) => {
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        proxyRes.pipe(res, { end: true });
+      }
+    );
+    
+    proxyReq.on('error', (err) => {
+      console.error(`Proxy error: ${err.message}`);
+      res.writeHead(502);
+      res.end('Bad Gateway');
+    });
+    
+    req.pipe(proxyReq, { end: true });
+    return;
+  }
+
   let urlPath = req.url.split('?')[0];
   let filePath = path.join(PUBLIC_DIR, urlPath);
   
@@ -58,4 +90,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Frontend server running on port ${PORT}`);
+  console.log(`Proxying /api/ to ${BACKEND_URL}`);
 });

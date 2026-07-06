@@ -14,10 +14,10 @@ const Benchmarks = () => {
   return (
     <AdminLayout>
       <div className="flex-1 flex flex-col overflow-y-auto">
-        <div className="p-32 max-w-7xl mx-auto w-full">
+        <div className="p-16 md:p-32 max-w-7xl mx-auto w-full pb-[100px] lg:pb-32">
         <header className="mb-32">
-          <h1 className="font-display text-[32px] font-bold text-soil-ink mb-8">System Benchmarks</h1>
-          <p className="text-stone text-[16px] max-w-2xl">
+          <h1 className="font-display text-[28px] lg:text-[32px] font-bold text-soil-ink mb-4 lg:mb-8">System Benchmarks</h1>
+          <p className="text-stone text-[14px] lg:text-[16px] max-w-2xl">
             Real performance metrics comparing CPU vs. NVIDIA GPU acceleration (T4) for our XGBoost price prediction models on a 61,931 row dataset.
           </p>
         </header>

@@ -16,10 +16,16 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       : "flex items-center gap-12 px-16 py-12 rounded-[12px] text-stone hover:text-soil-ink hover:bg-white/50 transition-colors w-full";
   };
 
+  const getMobileMenuClass = (activePaths: string[]) => {
+    return activePaths.includes(path)
+      ? "flex flex-col items-center gap-4 text-board-green transition-colors flex-1"
+      : "flex flex-col items-center gap-4 text-stone hover:text-soil-ink transition-colors flex-1";
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#F9F6F0] font-body text-soil-ink">
-      {/* Sidebar */}
-      <aside className="w-[260px] bg-kraft-paper border-r border-stone/20 h-screen sticky top-0 flex flex-col hidden lg:flex shrink-0">
+    <div className="flex min-h-screen bg-[#F9F6F0] font-body text-soil-ink pb-[60px] lg:pb-0">
+      {/* Desktop Sidebar */}
+      <aside className="w-[260px] bg-kraft-paper border-r border-stone/20 h-screen sticky top-0 flex-col hidden lg:flex shrink-0">
         <div 
           className="h-[80px] px-24 flex items-center gap-12 cursor-pointer border-b border-stone/10 hover:bg-stone/5 transition-colors"
           onClick={() => navigate('/')}
@@ -90,6 +96,30 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       <div className="flex-1 overflow-x-hidden">
         {children}
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone/20 flex lg:hidden items-center justify-around h-[60px] px-8 z-50">
+        <button className={getMobileMenuClass(["/admin/dashboard", "/admin"])} onClick={() => navigate('/admin/dashboard')}>
+          <span className="material-symbols-outlined text-[24px]">grid_view</span>
+          <span className="text-[10px] font-medium">Overview</span>
+        </button>
+        <button className={getMobileMenuClass(["/ask", "/admin/ask"])} onClick={() => navigate('/ask')}>
+          <span className="material-symbols-outlined text-[24px]">chat</span>
+          <span className="text-[10px] font-medium">Ask</span>
+        </button>
+        <button className={getMobileMenuClass(["/admin/map"])} onClick={() => navigate('/admin/map')}>
+          <span className="material-symbols-outlined text-[24px]">map</span>
+          <span className="text-[10px] font-medium">Map</span>
+        </button>
+        <button className={getMobileMenuClass(["/admin/trackers"])} onClick={() => navigate('/admin/trackers')}>
+          <span className="material-symbols-outlined text-[24px]">notifications_active</span>
+          <span className="text-[10px] font-medium">Trackers</span>
+        </button>
+        <button className={getMobileMenuClass(["/benchmarks"])} onClick={() => navigate('/benchmarks')}>
+          <span className="material-symbols-outlined text-[24px]">speed</span>
+          <span className="text-[10px] font-medium">Speed</span>
+        </button>
+      </nav>
     </div>
   );
 };

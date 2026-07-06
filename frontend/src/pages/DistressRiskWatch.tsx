@@ -35,12 +35,12 @@ const DistressRiskWatch = () => {
   return (
     <AdminLayout>
        {/* Main Content */}
-       <main className="flex-1 p-32 lg:p-48 max-w-[1400px]">
+       <main className="flex-1 p-16 md:p-32 lg:p-48 max-w-[1400px]">
           
-          <div className="flex justify-between items-start mb-48">
-            <div className="flex flex-col gap-8">
-              <h1 className="font-display font-bold text-[40px] text-soil-ink leading-none tracking-tight">Mandi Overview</h1>
-              <p className="text-[16px] text-stone">Analytics Dashboard powered by BigQuery & cuDF</p>
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-24 lg:mb-48 gap-16 lg:gap-0">
+            <div className="flex flex-col gap-4 lg:gap-8">
+              <h1 className="font-display font-bold text-[32px] lg:text-[40px] text-soil-ink leading-none tracking-tight">Mandi Overview</h1>
+              <p className="text-[14px] lg:text-[16px] text-stone">Analytics Dashboard powered by BigQuery & cuDF</p>
             </div>
             
             <div className="flex items-center gap-8 bg-white border border-stone/20 rounded-full px-16 py-12 shadow-sm">
@@ -67,12 +67,12 @@ const DistressRiskWatch = () => {
           ) : (
             <>
               {/* 6 Key Metrics Row */}
-              <div className="grid grid-cols-2 lg:grid-cols-6 gap-16 mb-48">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-16 mb-24 lg:mb-48">
                 
                 {/* 1. TOTAL FARMERS */}
                 <div className="bg-white rounded-[12px] border border-stone/10 p-24 shadow-sm flex flex-col">
                   <span className="text-[11px] font-bold text-stone uppercase tracking-widest mb-16">TOTAL FARMERS</span>
-                  <span className="font-body font-bold text-[36px] text-soil-ink leading-none mb-16">{metrics.total_farmers.value}</span>
+                  <span className="font-body font-bold text-[28px] lg:text-[36px] text-soil-ink leading-none mb-16">{metrics.total_farmers.value}</span>
                   <div className="flex items-center gap-4 text-[13px] font-bold text-board-green">
                     <span className="material-symbols-outlined text-[16px]">trending_up</span> {metrics.total_farmers.subtitle}
                   </div>
@@ -81,7 +81,7 @@ const DistressRiskWatch = () => {
                 {/* 2. CROPS TRACKED */}
                 <div className="bg-white rounded-[12px] border border-stone/10 p-24 shadow-sm flex flex-col">
                   <span className="text-[11px] font-bold text-stone uppercase tracking-widest mb-16">CROPS TRACKED</span>
-                  <span className="font-body font-bold text-[36px] text-soil-ink leading-none mb-16">{metrics.crops_tracked.value}</span>
+                  <span className="font-body font-bold text-[28px] lg:text-[36px] text-soil-ink leading-none mb-16">{metrics.crops_tracked.value}</span>
                   <div className="flex items-center gap-4 text-[13px] font-medium text-stone">
                     {metrics.crops_tracked.subtitle}
                   </div>
@@ -90,7 +90,7 @@ const DistressRiskWatch = () => {
                 {/* 3. ALERTS GENERATED */}
                 <div className="bg-white rounded-[12px] border border-stone/10 p-24 shadow-sm flex flex-col">
                   <span className="text-[11px] font-bold text-stone uppercase tracking-widest mb-16">ALERTS GENERATED</span>
-                  <span className="font-body font-bold text-[36px] text-soil-ink leading-none mb-16">{metrics.alerts_generated.value}</span>
+                  <span className="font-body font-bold text-[28px] lg:text-[36px] text-soil-ink leading-none mb-16">{metrics.alerts_generated.value}</span>
                   <div className="flex items-center gap-4 text-[13px] font-bold text-board-green">
                     <span className="material-symbols-outlined text-[16px]">trending_up</span> {metrics.alerts_generated.subtitle}
                   </div>
@@ -99,7 +99,7 @@ const DistressRiskWatch = () => {
                 {/* 4. DISTRESS MARKETS */}
                 <div className="bg-white rounded-[12px] border border-stone/10 p-24 shadow-sm flex flex-col">
                   <span className="text-[11px] font-bold text-stone uppercase tracking-widest mb-16">DISTRESS MARKETS</span>
-                  <span className="font-body font-bold text-[36px] text-chili-vermillion leading-none mb-16">{metrics.distress_markets.value}</span>
+                  <span className="font-body font-bold text-[28px] lg:text-[36px] text-chili-vermillion leading-none mb-16">{metrics.distress_markets.value}</span>
                   <div className="flex items-center gap-4 text-[12px] font-bold text-chili-vermillion bg-chili-vermillion/10 px-8 py-4 rounded-md w-fit">
                     <span className="material-symbols-outlined text-[14px]">warning</span> {metrics.distress_markets.subtitle}
                   </div>
@@ -108,7 +108,7 @@ const DistressRiskWatch = () => {
                 {/* 5. PREDICTION ACCURACY */}
                 <div className="bg-white rounded-[12px] border border-stone/10 p-24 shadow-sm flex flex-col">
                   <span className="text-[11px] font-bold text-stone uppercase tracking-widest mb-16">PREDICTION ACCURACY</span>
-                  <span className="font-body font-bold text-[36px] text-soil-ink leading-none mb-16">{metrics.prediction_accuracy.value}</span>
+                  <span className="font-body font-bold text-[28px] lg:text-[36px] text-soil-ink leading-none mb-16">{metrics.prediction_accuracy.value}</span>
                   <div className="flex items-center gap-4 text-[13px] font-bold text-board-green">
                     <span className="material-symbols-outlined text-[16px]">check_circle</span> {metrics.prediction_accuracy.subtitle}
                   </div>

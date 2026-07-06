@@ -32,7 +32,7 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-kraft-paper text-soil-ink font-body">
       {/* 1. Nav Bar exactly like reference */}
-      <nav className="w-full bg-kraft-paper flex items-center justify-between px-32 h-[80px] shadow-sm z-20 relative border-b border-stone/20">
+      <nav className="w-full bg-kraft-paper flex items-center justify-between px-16 md:px-32 lg:px-64 h-[80px] shadow-sm z-20 relative border-b border-stone/20">
         <div className="flex items-center gap-8">
           <img src="/logo-cs.png" alt="CropSentinel Logo" className="h-[48px] w-auto object-contain" />
         </div>
@@ -56,7 +56,7 @@ const Landing = () => {
       </nav>
 
       {/* 2. Hero Section Split Layout */}
-      <div className="flex-1 flex flex-col lg:flex-row w-full h-[calc(100vh-80px)]">
+      <div className="flex-1 flex flex-col lg:flex-row w-full min-h-[calc(100vh-80px)] h-auto">
         
         {/* Left Side: Dark Grid & Widget */}
         <div className="w-full lg:w-1/2 h-full bg-board-green relative flex items-center justify-center p-32 lg:p-48 overflow-hidden border-r border-stone/20"
@@ -67,7 +67,7 @@ const Landing = () => {
              }}>
           
           {/* Functional Widget Card */}
-          <div className="relative w-full max-w-[420px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col h-[600px] max-h-full">
+          <div className="relative w-full max-w-[420px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col h-[500px] md:h-[600px] max-h-full">
             
             {/* Top Image */}
             <div className="w-full h-[240px] bg-stone relative">
@@ -142,7 +142,7 @@ const Landing = () => {
         </div>
 
         {/* Right Side: Copy & CTA */}
-        <div className="w-full lg:w-1/2 h-full bg-kraft-paper flex flex-col justify-center items-center text-center px-32 lg:px-64">
+        <div className="w-full lg:w-1/2 min-h-[50vh] bg-kraft-paper flex flex-col justify-center items-center text-center px-16 md:px-32 lg:px-64 py-48 lg:py-0">
           
           {/* Tagline Badge */}
           <div className="inline-flex items-center gap-8 px-16 py-8 rounded-full border border-stone/20 bg-kraft-paper shadow-sm mb-48 -mt-24">
@@ -171,7 +171,7 @@ const Landing = () => {
       <LiveRateBoard />
 
       {/* 3 Boxes Section: Why CropSentinel */}
-      <section className="w-full bg-kraft-paper pt-120 px-32 lg:px-64">
+      <section className="w-full bg-kraft-paper pt-64 lg:pt-120 px-16 md:px-32 lg:px-64">
         <div className="w-full max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-32 lg:gap-64">
             
@@ -207,14 +207,14 @@ const Landing = () => {
       </section>
 
       {/* Tagline */}
-      <section className="w-full bg-kraft-paper pt-120 pb-120 px-32 lg:px-64 text-center">
+      <section className="w-full bg-kraft-paper pt-64 lg:pt-120 pb-64 lg:pb-120 px-16 md:px-32 lg:px-64 text-center">
         <h2 className="font-display text-[48px] lg:text-[64px] font-semibold text-soil-ink leading-[1.1] max-w-[1000px] mx-auto tracking-tight">
           3,000+ markets. One farmer. No time to check them all.
         </h2>
       </section>
 
       {/* How it Works Timeline */}
-      <section id="how-it-works" className="w-full bg-[#F9F6F0] py-120 px-32 lg:px-64 border-y border-stone/10">
+      <section id="how-it-works" className="w-full bg-[#F9F6F0] py-64 lg:py-120 px-16 md:px-32 lg:px-64 border-y border-stone/10">
         <div className="w-full max-w-[1200px] mx-auto">
           <div className="text-stone uppercase text-[14px] font-bold tracking-[0.2em] mb-64 text-center">
             [01] How It Works
@@ -280,7 +280,7 @@ const Landing = () => {
       </section>
 
       {/* Acceleration Race */}
-      <section className="w-full bg-kraft-paper pt-120 pb-120 px-32 lg:px-64 text-center">
+      <section className="w-full bg-kraft-paper pt-64 lg:pt-120 pb-64 lg:pb-120 px-16 md:px-32 lg:px-64 text-center">
         <div className="w-full max-w-[800px] mx-auto">
           <div className="bg-white rounded-[24px] p-48 border border-stone/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-48 flex flex-col items-center w-full">
              <div className="w-full flex items-center justify-between mb-24">
@@ -302,7 +302,7 @@ const Landing = () => {
       </section>
 
       {/* Footer Section exactly 300px height */}
-      <footer className="w-full h-[300px] bg-board-green text-kraft-paper flex flex-col justify-center px-32 lg:px-64 relative overflow-hidden">
+      <footer className="w-full min-h-[300px] h-auto bg-board-green text-kraft-paper flex flex-col justify-center py-48 px-16 md:px-32 lg:px-64 relative overflow-hidden">
         <div className="w-full max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center h-full">
           
           {/* Left: Try it yourself */}
