@@ -1,0 +1,248 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FasalSetu Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fe8357",
+                    "tertiary": "#5e2d33",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeeea",
+                    "warning-amber": "#D97706",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9faf5",
+                    "surface-variant": "#e2e3df",
+                    "primary": "#15442b",
+                    "on-tertiary-container": "#fcb4ba",
+                    "tertiary-fixed": "#ffdadc",
+                    "inverse-on-surface": "#f0f1ed",
+                    "on-secondary-container": "#6f2000",
+                    "secondary-fixed": "#ffdbcf",
+                    "on-secondary-fixed": "#390c00",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#d9dad6",
+                    "outline": "#717972",
+                    "inverse-surface": "#2e312e",
+                    "on-background": "#1a1c1a",
+                    "secondary-fixed-dim": "#ffb59c",
+                    "surface": "#f9faf5",
+                    "outline-variant": "#c1c9c0",
+                    "on-primary-fixed-variant": "#214f35",
+                    "surface-gray": "#F8F9FA",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e2e3df",
+                    "action-blue": "#1E40AF",
+                    "primary-fixed-dim": "#a0d2b0",
+                    "primary-fixed": "#bbeecb",
+                    "surface-container-low": "#f3f4f0",
+                    "inverse-primary": "#a0d2b0",
+                    "primary-container": "#2e5c41",
+                    "surface-container-high": "#e7e9e4",
+                    "on-tertiary-fixed-variant": "#6b373d",
+                    "on-surface-variant": "#414942",
+                    "background": "#f9faf5",
+                    "on-surface": "#1a1c1a",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#a1d2b0",
+                    "surface-tint": "#3a684c",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#360d14",
+                    "on-secondary-fixed-variant": "#822801",
+                    "tertiary-fixed-dim": "#fcb4ba",
+                    "on-primary-fixed": "#002110",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#794349",
+                    "secondary": "#a23e18"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-lg": "24px",
+                    "touch-target-min": "44px",
+                    "margin-desktop": "64px",
+                    "gutter": "16px",
+                    "margin-mobile": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "display": ["Outfit"],
+                    "caption": ["Inter"],
+                    "headline-lg": ["Outfit"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["Outfit"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Outfit"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(21, 68, 43, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(21, 68, 43, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(21, 68, 43, 0); }
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .glass-panel {
+            background: rgba(249, 250, 245, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex flex-col overflow-hidden font-body-md text-body-md">
+<!-- Top App Bar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md text-primary dark:text-primary-fixed font-headline-md text-headline-md-mobile md:text-headline-md docked full-width top-0 sticky shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-touch-target-min z-10 border-b-0"><div class="flex items-center gap-2">
+  <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+    <span class="material-symbols-outlined text-on-primary text-lg" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+  </div>
+  <h1 class="font-display text-headline-md font-bold text-primary dark:text-primary-fixed">FasalSetu</h1>
+</div>
+<div class="flex items-center gap-2">
+  <button class="flex items-center gap-1 px-3 py-1 rounded-full border border-outline-variant/30 text-label-md font-label-md hover:bg-surface-variant/50 transition-colors">
+    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">language</span>
+    <span class="">EN/HI</span>
+  </button>
+  <button class="flex items-center justify-center w-touch-target-min h-touch-target-min hover:bg-surface-variant/50 transition-colors scale-95 active:scale-90 transition-transform rounded-full">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">more_vert</span>
+  </button>
+</div></header>
+<!-- Chat Body -->
+<main class="flex-1 overflow-y-auto p-margin-mobile flex flex-col gap-stack-lg pb-32">
+<!-- AI Bubble -->
+<div class="flex items-end gap-stack-sm w-full max-w-[85%]">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-on-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="bg-surface-container-high text-on-surface rounded-2xl rounded-bl-sm p-4 shadow-sm border border-outline-variant/20 relative">
+<p class="">Namaste! What crop are you looking to sell today, and where?</p>
+<div class="absolute -bottom-1 left-4 w-3 h-3 bg-surface-container-high rotate-45 transform border-b border-l border-outline-variant/20"></div>
+</div>
+</div>
+<!-- User Bubble -->
+<div class="flex items-end gap-stack-sm w-full max-w-[85%] self-end flex-row-reverse">
+<div class="bg-primary text-on-primary rounded-2xl rounded-br-sm p-4 shadow-md relative">
+<p class="">Tomato, 2 Tonnes, Warangal</p>
+<div class="absolute -bottom-1 right-4 w-3 h-3 bg-primary rotate-45 transform border-b border-r border-primary/20"></div>
+</div>
+</div>
+<!-- Processing State -->
+<div class="flex items-center gap-stack-md w-full max-w-[85%] self-end justify-end mt-2">
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant font-label-md text-label-md relative overflow-hidden">
+<div class="absolute inset-0 shimmer"></div>
+<span class="material-symbols-outlined animate-spin text-sm" style="font-variation-settings: 'FILL' 0;">sync</span>
+<span class="relative z-10">Analyzing 15 local mandis...</span>
+</div>
+</div>
+</main>
+<!-- Footer / Input Area -->
+<div class="fixed bottom-[64px] left-0 w-full px-margin-mobile pb-stack-md pt-stack-sm glass-panel z-20 md:hidden flex flex-col gap-stack-sm">
+<!-- Suggestion Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide no-scrollbar -mx-margin-mobile px-margin-mobile">
+<button class="bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/50 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:bg-surface-variant transition-colors">Tomato</button>
+<button class="bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/50 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:bg-surface-variant transition-colors">Onion</button>
+<button class="bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/50 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:bg-surface-variant transition-colors">1 Tonne</button>
+</div>
+<!-- Input Row -->
+<div class="flex items-center gap-stack-sm">
+<div class="flex-1 bg-surface-container-highest rounded-full h-12 flex items-center px-4 border border-outline-variant/30 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<input class="bg-transparent border-none w-full focus:ring-0 text-on-surface font-body-md text-body-md placeholder-on-surface-variant/50 h-full" placeholder="Type or speak your details..." type="text">
+</div>
+<!-- Voice FAB -->
+<button class="w-14 h-14 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg pulse-animation shrink-0 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+</div>
+<!-- Desktop Navigation Shell (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col h-screen py-stack-lg bg-surface-container-low dark:bg-surface-container-lowest text-primary dark:text-primary-fixed font-body-md text-body-md h-full w-64 fixed left-0 top-0 border-r border-outline-variant shadow-md">
+<div class="px-gutter mb-8">
+<h2 class="font-display text-headline-md text-primary">FasalSetu</h2>
+</div>
+<nav class="flex-1 flex flex-col gap-1 pr-4">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/40 rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">thermostat</span>
+<span class="">Heat Map</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/40 rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">warning</span>
+<span class="">Risk Watch</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/40 rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">trending_up</span>
+<span class="">Trend Explorer</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/40 rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">storefront</span>
+<span class="">Mandi Insights</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 bg-primary-container text-on-primary-container font-semibold rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="">Chat Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/40 rounded-r-full hover:bg-surface-container-high transition-all cursor-pointer active:opacity-80 mt-auto" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="">Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Mobile Bottom NavBar -->
+<nav class="md:hidden bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg text-primary dark:text-primary-fixed-dim font-label-md text-label-md font-display text-primary docked full-width bottom-0 rounded-t-xl shadow-lg fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-gutter pb-safe border-t-0 bg-surface-gray">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out w-16 h-12" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out w-16 h-12" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">map</span>
+<span class="text-[10px] mt-1">Mandi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out w-16 h-12" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="text-[10px] mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out h-10 mt-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="text-[10px] mt-0.5">Chat</span>
+</a>
+</nav>
+
+
+</body></html>

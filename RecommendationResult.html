@@ -1,0 +1,239 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Recommendation Result</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fe8357",
+                    "tertiary": "#5e2d33",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeeea",
+                    "warning-amber": "#D97706",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9faf5",
+                    "surface-variant": "#e2e3df",
+                    "primary": "#15442b",
+                    "on-tertiary-container": "#fcb4ba",
+                    "tertiary-fixed": "#ffdadc",
+                    "inverse-on-surface": "#f0f1ed",
+                    "on-secondary-container": "#6f2000",
+                    "secondary-fixed": "#ffdbcf",
+                    "on-secondary-fixed": "#390c00",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#d9dad6",
+                    "outline": "#717972",
+                    "inverse-surface": "#2e312e",
+                    "on-background": "#1a1c1a",
+                    "secondary-fixed-dim": "#ffb59c",
+                    "surface": "#f9faf5",
+                    "outline-variant": "#c1c9c0",
+                    "on-primary-fixed-variant": "#214f35",
+                    "surface-gray": "#F8F9FA",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e2e3df",
+                    "action-blue": "#1E40AF",
+                    "primary-fixed-dim": "#a0d2b0",
+                    "primary-fixed": "#bbeecb",
+                    "surface-container-low": "#f3f4f0",
+                    "inverse-primary": "#a0d2b0",
+                    "primary-container": "#2e5c41",
+                    "surface-container-high": "#e7e9e4",
+                    "on-tertiary-fixed-variant": "#6b373d",
+                    "on-surface-variant": "#414942",
+                    "background": "#f9faf5",
+                    "on-surface": "#1a1c1a",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#a1d2b0",
+                    "surface-tint": "#3a684c",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#360d14",
+                    "on-secondary-fixed-variant": "#822801",
+                    "tertiary-fixed-dim": "#fcb4ba",
+                    "on-primary-fixed": "#002110",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#794349",
+                    "secondary": "#a23e18"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-lg": "24px",
+                    "touch-target-min": "44px",
+                    "margin-desktop": "64px",
+                    "gutter": "16px",
+                    "margin-mobile": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "display": [
+                            "Outfit"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Outfit"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Outfit"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Outfit"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen relative overflow-hidden flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm docked full-width top-0 sticky z-50"><div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-touch-target-min">
+<div class="flex items-center gap-2">
+<button class="text-primary hover:bg-surface-variant/50 transition-colors scale-95 active:scale-90 transition-transform w-touch-target-min h-touch-target-min flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<h1 class="font-display text-headline-md font-bold text-primary">FasalSetu</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 h-8 rounded-full border border-outline-variant text-label-md font-label-md text-primary hover:bg-surface-container-low transition-colors flex items-center justify-center">
+EN/HI
+</button>
+</div>
+</div></header>
+<!-- Main Content Area - Result Card Layout -->
+<main class="flex-grow flex flex-col relative z-10">
+<!-- Verdict Banner (Top 30% area representation) -->
+<div class="bg-primary pt-8 pb-16 px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-center text-center shadow-lg relative z-0">
+<span class="material-symbols-outlined text-on-primary text-6xl mb-4" style="font-variation-settings: 'FILL' 1;">sell</span>
+<h2 class="font-display text-display text-on-primary">SELL TODAY</h2>
+<p class="font-body-lg text-primary-fixed mt-2 opacity-90">Optimal Market Conditions Detected</p>
+</div>
+<!-- Overlapping Content Card -->
+<div class="flex-grow px-margin-mobile md:px-margin-desktop -mt-8 relative z-20 pb-safe">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_30px_rgb(21,68,43,0.1)] p-stack-lg border border-outline-variant/30 max-w-md mx-auto backdrop-blur-lg bg-surface-container-lowest/90">
+<!-- Explanation -->
+<div class="mb-stack-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-warning-amber mt-1" data-weight="fill" style="font-variation-settings: 'FILL' 1;">trending_down</span>
+<p class="font-body-lg text-on-surface leading-relaxed">
+                        Prices are expected to drop <span class="font-bold text-error">15%</span> in the next 3 days due to high arrivals in Warangal.
+                    </p>
+</div>
+<hr class="border-t border-outline-variant/30 mb-stack-lg">
+<!-- Data Grid -->
+<div class="grid grid-cols-2 gap-gutter mb-stack-lg">
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 flex flex-col justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-1">Predicted Price</span>
+<span class="font-headline-md text-headline-md text-primary">₹2,400<span class="text-sm font-normal text-on-surface-variant">/q</span></span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 flex flex-col justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-1">AI Confidence</span>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary">92%</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-stack-sm mt-stack-lg">
+<button class="w-full bg-primary text-on-primary h-touch-target-min rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 shadow-md hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="location_on">location_on</span>
+                        View on Map
+                    </button>
+<button class="w-full bg-transparent border-2 border-outline-variant text-on-surface h-touch-target-min rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="notifications">notifications</span>
+                        Track this Crop
+                    </button>
+</div>
+<div class="mt-4 text-center">
+<p class="font-caption text-caption text-on-surface-variant">Last updated: Just now</p>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

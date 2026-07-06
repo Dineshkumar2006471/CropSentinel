@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>My Trackers / Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#fe8357",
+                      "tertiary": "#5e2d33",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeea",
+                      "warning-amber": "#D97706",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#f9faf5",
+                      "surface-variant": "#e2e3df",
+                      "primary": "#15442b",
+                      "on-tertiary-container": "#fcb4ba",
+                      "tertiary-fixed": "#ffdadc",
+                      "inverse-on-surface": "#f0f1ed",
+                      "on-secondary-container": "#6f2000",
+                      "secondary-fixed": "#ffdbcf",
+                      "on-secondary-fixed": "#390c00",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#d9dad6",
+                      "outline": "#717972",
+                      "inverse-surface": "#2e312e",
+                      "on-background": "#1a1c1a",
+                      "secondary-fixed-dim": "#ffb59c",
+                      "surface": "#f9faf5",
+                      "outline-variant": "#c1c9c0",
+                      "on-primary-fixed-variant": "#214f35",
+                      "surface-gray": "#F8F9FA",
+                      "on-error": "#ffffff",
+                      "surface-container-highest": "#e2e3df",
+                      "action-blue": "#1E40AF",
+                      "primary-fixed-dim": "#a0d2b0",
+                      "primary-fixed": "#bbeecb",
+                      "surface-container-low": "#f3f4f0",
+                      "inverse-primary": "#a0d2b0",
+                      "primary-container": "#2e5c41",
+                      "surface-container-high": "#e7e9e4",
+                      "on-tertiary-fixed-variant": "#6b373d",
+                      "on-surface-variant": "#414942",
+                      "background": "#f9faf5",
+                      "on-surface": "#1a1c1a",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#a1d2b0",
+                      "surface-tint": "#3a684c",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed": "#360d14",
+                      "on-secondary-fixed-variant": "#822801",
+                      "tertiary-fixed-dim": "#fcb4ba",
+                      "on-primary-fixed": "#002110",
+                      "error": "#ba1a1a",
+                      "tertiary-container": "#794349",
+                      "secondary": "#a23e18"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "stack-lg": "24px",
+                      "touch-target-min": "44px",
+                      "margin-desktop": "64px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "stack-md": "16px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display": [
+                              "Outfit"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Outfit"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Outfit"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Outfit"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md text-primary dark:text-primary-fixed docked full-width top-0 sticky shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-touch-target-min z-40"><div class="flex items-center gap-2">
+  <span class="font-display text-headline-md font-bold text-primary dark:text-primary-fixed">FasalSetu</span>
+</div>
+<div class="flex items-center gap-1">
+  <button aria-label="Translate" class="flex items-center gap-1 hover:bg-surface-variant/50 transition-colors scale-95 active:scale-90 rounded-full px-3 py-1" data-icon="translate">
+    <span class="material-symbols-outlined text-[20px]">translate</span>
+    <span class="font-label-md text-label-md">EN/HI</span>
+  </button>
+</div></header>
+<!-- Main Content -->
+<main class="flex-grow p-margin-mobile md:p-margin-desktop pb-24 space-y-stack-md max-w-3xl mx-auto w-full">
+<div class="flex justify-between items-center mb-stack-lg">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">My Trackers</h1>
+<span class="font-label-md text-label-md text-on-surface-variant bg-surface-variant px-3 py-1 rounded-full">3 Active Alerts</span>
+</div>
+<!-- Tracker Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(21,68,43,0.08)] p-gutter border border-surface-variant flex flex-col gap-stack-sm hover:shadow-[0_8px_30px_-4px_rgba(21,68,43,0.12)] transition-shadow cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-error-container rounded-full flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface">Tomato</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Warangal
+                        </p>
+</div>
+</div>
+<span class="bg-error text-on-error font-label-md text-label-md px-3 py-1 rounded-full shadow-sm">High Drop Risk</span>
+</div>
+<div aria-hidden="true" class="mt-stack-sm h-16 w-full flex items-end gap-1 opacity-80">
+<!-- Decorative Sparkline Bars for "Drop Risk" -->
+<div class="w-1/7 bg-surface-variant h-full rounded-t-sm"></div>
+<div class="w-1/7 bg-surface-variant h-5/6 rounded-t-sm"></div>
+<div class="w-1/7 bg-surface-variant h-4/6 rounded-t-sm"></div>
+<div class="w-1/7 bg-warning-amber/50 h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-error/50 h-1/3 rounded-t-sm"></div>
+<div class="w-1/7 bg-error/80 h-1/4 rounded-t-sm"></div>
+<div class="w-1/7 bg-error h-1/6 rounded-t-sm relative">
+<div class="absolute -top-2 -right-1 w-2 h-2 bg-error rounded-full animate-ping"></div>
+</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant text-right">7-day price trend</p>
+</article>
+<!-- Tracker Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(21,68,43,0.08)] p-gutter border border-surface-variant flex flex-col gap-stack-sm hover:shadow-[0_8px_30px_-4px_rgba(21,68,43,0.12)] transition-shadow cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-primary-fixed rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface">Cotton</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Khammam
+                        </p>
+</div>
+</div>
+<span class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3 py-1 rounded-full shadow-sm">Stable Growth</span>
+</div>
+<div aria-hidden="true" class="mt-stack-sm h-16 w-full flex items-end gap-1 opacity-80">
+<!-- Decorative Sparkline Bars for "Stable Growth" -->
+<div class="w-1/7 bg-surface-variant h-1/4 rounded-t-sm"></div>
+<div class="w-1/7 bg-surface-variant h-1/3 rounded-t-sm"></div>
+<div class="w-1/7 bg-surface-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-primary-fixed h-3/5 rounded-t-sm"></div>
+<div class="w-1/7 bg-primary-fixed-dim h-4/5 rounded-t-sm"></div>
+<div class="w-1/7 bg-primary h-5/6 rounded-t-sm"></div>
+<div class="w-1/7 bg-primary h-full rounded-t-sm relative"></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant text-right">7-day price trend</p>
+</article>
+<!-- Tracker Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(21,68,43,0.08)] p-gutter border border-surface-variant flex flex-col gap-stack-sm hover:shadow-[0_8px_30px_-4px_rgba(21,68,43,0.12)] transition-shadow cursor-pointer opacity-75">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-surface-variant rounded-full flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="horizontal_rule">horizontal_rule</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface">Paddy</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Nizamabad
+                        </p>
+</div>
+</div>
+<span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-3 py-1 rounded-full shadow-sm">No Action</span>
+</div>
+<div aria-hidden="true" class="mt-stack-sm h-16 w-full flex items-end gap-1 opacity-50">
+<!-- Decorative Sparkline Bars for "No Action" -->
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-[48%] rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm"></div>
+<div class="w-1/7 bg-outline-variant h-1/2 rounded-t-sm relative"></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant text-right">7-day price trend</p>
+</article>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button aria-label="Add Tracker" class="fixed bottom-24 right-margin-mobile md:right-margin-desktop w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center z-40">
+<span class="material-symbols-outlined text-[28px]" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-gutter pb-safe bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg text-primary dark:text-primary-fixed-dim font-label-md text-label-md font-display docked full-width rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="home">home</span>
+<span class="text-[10px] mt-1 font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="map">map</span>
+<span class="text-[10px] mt-1 font-medium">Mandi</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="notifications" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="text-[10px] mt-1 font-medium">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-[10px] mt-1 font-medium">Chat</span>
+</a>
+</nav>
+
+
+</body></html>

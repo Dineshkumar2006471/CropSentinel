@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Should I sell Tomato today in Baran?",
+    "response": "Namaste! Tomato is currently ₹1215/quintal in Baran. Our 7-day prediction shows a potential rise to ₹1307/quintal (up 7.6%), suggesting you might get a better price if you wait. However, please be aware of the 32.7% volatility risk and that this forecast is based on older market data."
+  },
+  {
+    "question": "What is the price of Tomato in Pune?",
+    "response": "Namaste Kisan bhai! The current price for Tomatoes in Pune is ₹1215/quintal. We predict a rise to ₹1307/quintal in the next 7 days (up 7.6%), but please note this forecast is based on older data due to limited recent market information. There's also a significant 32.7% volatility risk over the next 30 days."
+  },
+  {
+    "question": "How is Potato looking in Sangriya?",
+    "response": "Namaste! For Potato in Sangriya, the current price is ₹960/quintal. The 7-day predicted price is ₹871/quintal, showing a likely dip of 9.2%. Please note, this forecast is based on historical data older than 30 days due to limited recent market information, and there's a 30-day volatility risk of 2.3%."
+  },
+  {
+    "question": "Give me the price of Onion in Rawatsar.",
+    "response": "Hello there! For Onions in Rawatsar, the current price is ₹941/q.\n\nPlease note, the 7-day predicted price is ₹846/q, a decrease of 10.2%, but this forecast relies on data older than 30 days due to limited recent information, and there's a 30-day volatility risk of 10.8%."
+  },
+  {
+    "question": "Should I sell Onion in Dablirathan?",
+    "response": "Hello there! For Onion in Dablirathan, the current price is ₹941/q. The 7-day predicted price is ₹846/q, showing a potential drop of 10.2%. Do note that this forecast is based on older data due to limited recent information, and there's a 30-day volatility risk of 10.8%."
+  }
+]

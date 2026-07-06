@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FasalSetu - Mandi Map Comparison</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fe8357",
+                        "tertiary": "#5e2d33",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeea",
+                        "warning-amber": "#D97706",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9faf5",
+                        "surface-variant": "#e2e3df",
+                        "primary": "#15442b",
+                        "on-tertiary-container": "#fcb4ba",
+                        "tertiary-fixed": "#ffdadc",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-secondary-container": "#6f2000",
+                        "secondary-fixed": "#ffdbcf",
+                        "on-secondary-fixed": "#390c00",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d9dad6",
+                        "outline": "#717972",
+                        "inverse-surface": "#2e312e",
+                        "on-background": "#1a1c1a",
+                        "secondary-fixed-dim": "#ffb59c",
+                        "surface": "#f9faf5",
+                        "outline-variant": "#c1c9c0",
+                        "on-primary-fixed-variant": "#214f35",
+                        "surface-gray": "#F8F9FA",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e2e3df",
+                        "action-blue": "#1E40AF",
+                        "primary-fixed-dim": "#a0d2b0",
+                        "primary-fixed": "#bbeecb",
+                        "surface-container-low": "#f3f4f0",
+                        "inverse-primary": "#a0d2b0",
+                        "primary-container": "#2e5c41",
+                        "surface-container-high": "#e7e9e4",
+                        "on-tertiary-fixed-variant": "#6b373d",
+                        "on-surface-variant": "#414942",
+                        "background": "#f9faf5",
+                        "on-surface": "#1a1c1a",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#a1d2b0",
+                        "surface-tint": "#3a684c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#360d14",
+                        "on-secondary-fixed-variant": "#822801",
+                        "tertiary-fixed-dim": "#fcb4ba",
+                        "on-primary-fixed": "#002110",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#794349",
+                        "secondary": "#a23e18"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "touch-target-min": "44px",
+                        "margin-desktop": "64px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display": ["Outfit"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Map Marker Pulsing Animation */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        .marker-pulse::before {
+            content: '';
+            position: absolute;
+            left: -50%;
+            top: -50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 50%;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .marker-pulse-green::before { background-color: rgba(21, 68, 43, 0.4); }
+        .marker-pulse-red::before { background-color: rgba(186, 26, 26, 0.4); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile h-touch-target-min"><div class="flex items-center gap-2">
+    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+        <span class="material-symbols-outlined text-on-primary text-[20px]">agriculture</span>
+    </div>
+    <h1 class="font-display text-headline-md font-bold text-primary dark:text-primary-fixed">FasalSetu</h1>
+</div>
+<div class="flex items-center gap-2">
+    <button class="px-3 py-1 rounded-full border border-outline-variant text-label-md font-medium text-on-surface-variant hover:bg-surface-variant/50 transition-colors flex items-center gap-1">
+        <span class="material-symbols-outlined text-[18px]">translate</span>
+        <span class="">EN/HI</span>
+    </button>
+</div></header>
+<!-- Main Content Area: Map + Bottom Sheet -->
+<!-- The padding-bottom accounts for the fixed BottomNavBar -->
+<main class="flex-1 flex flex-col relative pb-[64px]">
+<!-- Google Maps View (60% Height) -->
+<div class="h-[60%] w-full relative">
+<div class="w-full h-full bg-cover bg-center absolute inset-0" data-alt="An overhead satellite map view of agricultural farmlands and rural roads in central India, rendered in a bright, modern light-mode color palette. The terrain shows a mix of lush green crops and earthy brown soil, conveying a pristine and authentic agricultural setting under clear daylight." data-location="Indore, Madhya Pradesh, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOwvUa5ZZP9bIi4eEYzjKRaC-iv5ORF1N96VpL6BquDsNgQ3giOc5CpXOVkuDuc5Rprpcz2fJh4xFu0ZPF3zNpl4zOLSUXgr0rzwgQ_6DOSE0zTJsPHJI65ErUI3w9B7B1KtIjHn_2k4NsQNrNbYUVZog_VlSmLs44ipvIXm_AbSCpYMflDJLZjwQGy9jXqZFfvfkQ0XdNgkM1FR4c-XUa5ky1cqMeVFRQhklJEQZ26ZnoamR-Oq1l3GmB160ixsa-ZugM76PaRuQ')">
+</div>
+<!-- Map Overlay Gradients for Depth -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface/20 to-transparent pointer-events-none"></div>
+<!-- Map Markers -->
+<!-- Marker 1: Better Price (Green) -->
+<div class="absolute top-[35%] left-[25%] flex flex-col items-center group cursor-pointer transition-transform hover:scale-110 z-10">
+<div class="bg-primary text-on-primary font-label-md text-label-md px-2 py-1 rounded-md shadow-md mb-1 border border-primary-fixed-dim whitespace-nowrap">
+                    ₹2,450/q
+                </div>
+<div class="relative marker-pulse marker-pulse-green">
+<span class="material-symbols-outlined text-primary drop-shadow-md text-[32px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<!-- Marker 2: Worse Price (Red) -->
+<div class="absolute top-[55%] left-[65%] flex flex-col items-center group cursor-pointer transition-transform hover:scale-110 z-10">
+<div class="bg-surface text-error font-label-md text-label-md px-2 py-1 rounded-md shadow-md mb-1 border border-error-container whitespace-nowrap">
+                    ₹2,310/q
+                </div>
+<div class="relative marker-pulse marker-pulse-red">
+<span class="material-symbols-outlined text-error drop-shadow-md text-[32px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<!-- Marker 3: Average Price (Amber/Secondary) -->
+<div class="absolute top-[20%] left-[70%] flex flex-col items-center group cursor-pointer transition-transform hover:scale-110 z-10">
+<div class="bg-surface text-warning-amber font-label-md text-label-md px-2 py-1 rounded-md shadow-md mb-1 border border-outline-variant whitespace-nowrap">
+                    ₹2,380/q
+                </div>
+<div class="relative">
+<span class="material-symbols-outlined text-warning-amber drop-shadow-md text-[32px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+</div>
+<!-- Bottom Sheet: Mandi Cards (40% Height) -->
+<div class="flex-1 bg-surface-container-lowest rounded-t-xl shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.15)] -mt-4 relative z-20 flex flex-col pt-3 border-t border-outline-variant/20">
+<!-- Swipe Indicator -->
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto mb-4"></div>
+<div class="px-margin-mobile mb-2 flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface">Compare Mandis</h2>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sort</span> Distance
+                </span>
+</div>
+<!-- Horizontal Carousel -->
+<div class="flex-1 overflow-x-auto flex gap-4 px-margin-mobile pb-6 snap-x hide-scrollbar items-start pt-2">
+<!-- Card 1: Best Price -->
+<div class="min-w-[280px] w-[85vw] snap-center bg-surface/80 backdrop-blur-md border border-primary-fixed-dim rounded-xl p-4 flex flex-col shadow-sm relative overflow-hidden ring-1 ring-primary/10">
+<div class="absolute top-0 right-0 bg-primary text-on-primary font-caption text-caption px-2 py-1 rounded-bl-lg font-medium">Recommended</div>
+<div class="flex justify-between items-start mb-3 mt-1">
+<div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-0.5">Indore Central</h3>
+<div class="flex items-center text-on-surface-variant font-body-md text-body-md gap-1">
+<span class="material-symbols-outlined text-[18px]">directions_car</span> 42 km away
+                            </div>
+</div>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Transport Est.</span>
+<span class="font-label-md text-label-md text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span> ₹150/q
+                            </span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-caption text-caption text-on-surface-variant">Effective Price</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">₹2,450<span class="text-body-md font-normal">/q</span></span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary h-touch-target-min rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">navigation</span> Get Directions
+                    </button>
+</div>
+<!-- Card 2: Closer, Worse Price -->
+<div class="min-w-[280px] w-[85vw] snap-center bg-surface border border-outline-variant/30 rounded-xl p-4 flex flex-col shadow-sm relative">
+<div class="flex justify-between items-start mb-3 mt-1">
+<div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-0.5">Ujjain Local</h3>
+<div class="flex items-center text-on-surface-variant font-body-md text-body-md gap-1">
+<span class="material-symbols-outlined text-[18px]">directions_car</span> 12 km away
+                            </div>
+</div>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Transport Est.</span>
+<span class="font-label-md text-label-md text-warning-amber flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">remove</span> ₹40/q
+                            </span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-caption text-caption text-on-surface-variant">Effective Price</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">₹2,310<span class="text-body-md font-normal">/q</span></span>
+</div>
+</div>
+<button class="w-full bg-surface-container-high text-on-surface h-touch-target-min rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors active:scale-95 border border-outline-variant/50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">navigation</span> Get Directions
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component) -->
+<nav class="bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-[64px] px-gutter pb-safe transition-all duration-300 ease-in-out rounded-t-xl">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed w-touch-target-min h-touch-target-min" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-md text-[10px] tracking-wide">Home</span>
+</a>
+<!-- Mandi (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1.5 min-w-touch-target-min h-touch-target-min shadow-sm" href="#">
+<span class="material-symbols-outlined mb-0.5" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-md text-[11px] font-bold">Mandi</span>
+</a>
+<!-- Alerts (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed w-touch-target-min h-touch-target-min" href="#">
+<span class="material-symbols-outlined mb-1 relative">
+                notifications
+                <span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</span>
+<span class="font-label-md text-[10px] tracking-wide">Alerts</span>
+</a>
+<!-- Chat (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed w-touch-target-min h-touch-target-min" href="#">
+<span class="material-symbols-outlined mb-1">chat_bubble</span>
+<span class="font-label-md text-[10px] tracking-wide">Chat</span>
+</a>
+</nav>
+
+
+</body></html>

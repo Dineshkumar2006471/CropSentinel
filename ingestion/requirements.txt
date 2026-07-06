@@ -1,0 +1,7 @@
+requests>=2.31.0
+google-cloud-storage>=2.14.0
+google-cloud-bigquery>=3.14.0
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+googlemaps>=4.10.0
+pandas>=2.1.0

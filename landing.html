@@ -1,0 +1,195 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FasalSetu - AI-Powered Mandi Prices</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fe8357",
+                        "tertiary": "#5e2d33",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeea",
+                        "warning-amber": "#D97706",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9faf5",
+                        "surface-variant": "#e2e3df",
+                        "primary": "#15442b",
+                        "on-tertiary-container": "#fcb4ba",
+                        "tertiary-fixed": "#ffdadc",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-secondary-container": "#6f2000",
+                        "secondary-fixed": "#ffdbcf",
+                        "on-secondary-fixed": "#390c00",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d9dad6",
+                        "outline": "#717972",
+                        "inverse-surface": "#2e312e",
+                        "on-background": "#1a1c1a",
+                        "secondary-fixed-dim": "#ffb59c",
+                        "surface": "#f9faf5",
+                        "outline-variant": "#c1c9c0",
+                        "on-primary-fixed-variant": "#214f35",
+                        "surface-gray": "#F8F9FA",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e2e3df",
+                        "action-blue": "#1E40AF",
+                        "primary-fixed-dim": "#a0d2b0",
+                        "primary-fixed": "#bbeecb",
+                        "surface-container-low": "#f3f4f0",
+                        "inverse-primary": "#a0d2b0",
+                        "primary-container": "#2e5c41",
+                        "surface-container-high": "#e7e9e4",
+                        "on-tertiary-fixed-variant": "#6b373d",
+                        "on-surface-variant": "#414942",
+                        "background": "#f9faf5",
+                        "on-surface": "#1a1c1a",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#a1d2b0",
+                        "surface-tint": "#3a684c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#360d14",
+                        "on-secondary-fixed-variant": "#822801",
+                        "tertiary-fixed-dim": "#fcb4ba",
+                        "on-primary-fixed": "#002110",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#794349",
+                        "secondary": "#a23e18"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "hero": "12px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "touch-target-min": "44px",
+                        "margin-desktop": "64px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display": ["Outfit"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Pulse animation for the main action button */
+        @keyframes subtle-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 92, 65, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 92, 65, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 92, 65, 0); }
+        }
+        .pulse-btn {
+            animation: subtle-pulse 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen w-full flex flex-col font-body-md antialiased overflow-hidden">
+<!-- Minimal Header (Transactional Context - No full TopAppBar from Shared Components, per guidelines) -->
+<header class="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-transparent">
+<div class="flex items-center gap-2">
+<!-- FasalSetu Logo Text - Anchored as heavy premium text -->
+<h1 class="font-display text-headline-md font-bold text-on-primary drop-shadow-md tracking-tight">FasalSetu</h1>
+</div>
+<!-- Language Toggle -->
+<button aria-label="Toggle Language" class="flex items-center gap-1 bg-surface-container-lowest/20 hover:bg-surface-container-lowest/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-outline-variant/30 text-on-primary transition-colors h-touch-target-min">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">translate</span>
+<span class="font-label-md text-label-md">EN/HI</span>
+</button>
+</header>
+<!-- Main Canvas Area - Suppressed Shell Components as this is a Splash/Landing page -->
+<main class="flex-grow relative flex flex-col w-full h-full">
+<!-- Hero Image Background with Dark Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A breathtaking, cinematic wide shot of a modern, lush agricultural field at golden hour. The scene features rows of vibrant, healthy crops receding into the distance, illuminated by warm, soft sunlight breaking through light clouds. In the foreground, subtle technological elements like subtle glowing data nodes hover gently over the crops, symbolizing the integration of AI and farming. The aesthetic is 'premium rural', blending earthy greens and amber tones with modern, clean clarity. The lighting creates a high-contrast, professional, and trustworthy mood." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8M1gwe-3FDAD9CGGipul3awgQGTvoFXq5uvUCbyzhIuUpm17z7OBcL6A2SF938SCP_aizrT8hDac6PfFE8iqG44HmP-IYZoq0K8VS9FsSEaz3JZNMLZ4fwVGzdC2jadji_YPHDtmyQuC4JtHcW7wMoS9AOqDBah-e7jJF_L2Ot5npvozrzbbFbDK1Vh-JyHaztQCGpnDaCh0Odgm6TpOxYp4oYX2bYKCWV5ircc745NlVXBvnnr2p5wxgbFwiOot83DfK1gbPW5k')"></div>
+<!-- Dark Gradient Overlay to ensure text readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-inverse-surface/80 via-inverse-surface/60 to-inverse-surface/90"></div>
+</div>
+<!-- Content Container -->
+<div class="relative z-10 flex-grow flex flex-col justify-end pb-12 px-margin-mobile md:px-margin-desktop md:justify-center md:items-center max-w-4xl mx-auto w-full">
+<!-- Text Content -->
+<div class="text-center md:text-center mb-stack-lg animate-fade-in-up w-full" style="opacity: 1; transform: translateY(0px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+<h2 class="font-display text-display text-on-primary mb-stack-sm md:mb-stack-md leading-tight drop-shadow-lg">
+                    AI-Powered Mandi Prices
+                </h2>
+<p class="font-body-lg text-body-lg text-surface-container-lowest/90 font-medium max-w-2xl mx-auto drop-shadow-md">
+                    Know when to sell. Know where to sell.
+                </p>
+</div>
+<!-- Action Buttons Area -->
+<div class="flex flex-col gap-stack-md w-full max-w-md mx-auto mt-stack-lg">
+<!-- Primary Action Button for Farmers (Natural Thumb Zone) -->
+<!-- High elevation, 12px corners, primary green container (#2E5C41 -> bg-primary-container) -->
+<button class="pulse-btn group w-full bg-primary-container text-on-primary-container hover:bg-primary-container/90 transition-all duration-300 rounded-hero h-16 flex items-center justify-center gap-3 shadow-xl active:scale-95 border border-primary-fixed-dim/30 backdrop-blur-sm">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span class="font-headline-md text-headline-md font-semibold tracking-wide">I am a Farmer</span>
+</button>
+<!-- Secondary Action / Ghost Button for Officials -->
+<!-- Secondary ghost button, 12px corners -->
+<button class="w-full bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 backdrop-blur-md border border-outline-variant text-on-primary transition-all duration-300 rounded-hero h-14 flex items-center justify-center gap-2 shadow-md active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">badge</span>
+<span class="font-label-md text-label-md font-medium tracking-wide">Official / FPO Login</span>
+</button>
+</div>
+<!-- Trust Indicators (Optional minimal footer text) -->
+<div class="mt-8 text-center text-on-primary/60 font-caption text-caption">
+<p class="">Empowering agricultural stewardship through data.</p>
+</div>
+</div>
+</main>
+<!-- Inline script for simple entrance animation logic if needed -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate-fade-in-up');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`;
+                
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+
+
+</body></html>

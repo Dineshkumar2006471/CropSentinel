@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Should I sell Onion today in Pune?",
+    "response": "Namaste! The current price for onions in Pune is ₹942/q. While a 10.7% price increase to ₹1043/q is predicted in 7 days, please note this forecast relies on older data and carries a 15.2% volatility risk. If you can manage the risk, holding for a potentially better price might be beneficial."
+  },
+  {
+    "question": "What is the price of Potato in Mumbai?",
+    "response": "Namaste! The current price of Potato in Mumbai is ₹967 per quintal. The 7-day predicted price is ₹847/q, indicating a potential drop of 12.4%, though this forecast relies on older data due to limited recent market information. With a 30-day volatility risk of 12.1%, it's wise to consider market fluctuations when planning your sales."
+  },
+  {
+    "question": "How is Tomato looking in Nagpur?",
+    "response": "Namaste! For tomatoes in Nagpur, the current price is ₹1234/q, but it's predicted to rise significantly to ₹2507/q in the next 7 days, a 103.1% increase! Please note this forecast uses older data, and there's a high 57.2% volatility risk. Consider this potential market surge, but keep an eye on real-time changes!"
+  },
+  {
+    "question": "Give me the price of Onion in Nashik.",
+    "response": "Hello there! The current price for Onions in Nashik is ₹942/quintal. We predict a rise to ₹1043/quintal in the next 7 days, up by 10.7%. Please note this forecast is based on older data due to limited recent market information, with a 15.2% volatility risk."
+  },
+  {
+    "question": "Should I sell Potato in Jaipur?",
+    "response": "Namaste! The current price for Potato in Jaipur is ₹967/q. However, the 7-day predicted price shows a drop to ₹847/q (down 12.4%). Considering this predicted dip, selling now might be advisable, but please note the forecast is based on older data with 12.1% volatility."
+  }
+]

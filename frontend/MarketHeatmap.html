@@ -1,0 +1,296 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Official Dashboard - Market Heatmap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fe8357",
+                        "tertiary": "#5e2d33",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeea",
+                        "warning-amber": "#D97706",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9faf5",
+                        "surface-variant": "#e2e3df",
+                        "primary": "#15442b",
+                        "on-tertiary-container": "#fcb4ba",
+                        "tertiary-fixed": "#ffdadc",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-secondary-container": "#6f2000",
+                        "secondary-fixed": "#ffdbcf",
+                        "on-secondary-fixed": "#390c00",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d9dad6",
+                        "outline": "#717972",
+                        "inverse-surface": "#2e312e",
+                        "on-background": "#1a1c1a",
+                        "secondary-fixed-dim": "#ffb59c",
+                        "surface": "#f9faf5",
+                        "outline-variant": "#c1c9c0",
+                        "on-primary-fixed-variant": "#214f35",
+                        "surface-gray": "#F8F9FA",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e2e3df",
+                        "action-blue": "#1E40AF",
+                        "primary-fixed-dim": "#a0d2b0",
+                        "primary-fixed": "#bbeecb",
+                        "surface-container-low": "#f3f4f0",
+                        "inverse-primary": "#a0d2b0",
+                        "primary-container": "#2e5c41",
+                        "surface-container-high": "#e7e9e4",
+                        "on-tertiary-fixed-variant": "#6b373d",
+                        "on-surface-variant": "#414942",
+                        "background": "#f9faf5",
+                        "on-surface": "#1a1c1a",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#a1d2b0",
+                        "surface-tint": "#3a684c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#360d14",
+                        "on-secondary-fixed-variant": "#822801",
+                        "tertiary-fixed-dim": "#fcb4ba",
+                        "on-primary-fixed": "#002110",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#794349",
+                        "secondary": "#a23e18"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "touch-target-min": "44px",
+                        "margin-desktop": "64px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display": ["Outfit"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- Mobile Top App Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-lg border-b border-outline-variant/30 px-margin-mobile md:px-margin-desktop h-16 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <div class="font-display text-headline-md font-bold text-primary tracking-tight">FasalSetu</div>
+  </div>
+  <nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+    <a href="#" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Home</a>
+    <a href="#" class="font-label-md text-label-md text-primary font-bold">Mandi</a>
+    <a href="#" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Alerts</a>
+    <a href="#" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Chat</a>
+  </nav>
+  <div class="flex items-center gap-4">
+    <button class="text-on-surface-variant hover:bg-surface-variant/50 transition-colors p-2 rounded-full">
+      <span class="material-symbols-outlined">translate</span>
+    </button>
+    <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+      <span class="material-symbols-outlined text-[20px]">person</span>
+    </div>
+  </div>
+</header>
+<!-- Desktop Navigation Drawer -->
+
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop min-h-screen flex flex-col pb-24 md:pb-margin-desktop pt-16">
+<!-- Header -->
+<div class="mb-stack-lg flex justify-between items-end">
+<div>
+<h1 class="font-display text-headline-lg-mobile md:text-headline-lg text-primary font-bold">Market Heatmap</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time risk visualization across districts.</p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="px-4 py-2 border border-outline rounded-lg text-primary font-label-md text-label-md hover:bg-surface-variant/50 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span> Export Report
+                </button>
+</div>
+</div>
+<!-- Split View Layout -->
+<div class="flex-1 flex flex-col xl:flex-row gap-stack-lg min-h-[600px]">
+<!-- Left Panel: Map (70%) -->
+<div class="w-full xl:w-[70%] bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden relative flex flex-col">
+<div class="p-4 border-b border-outline-variant/30 flex justify-between items-center bg-surface-gray">
+<h3 class="font-headline-md text-body-lg font-semibold text-primary">Northern Sector Overview</h3>
+<div class="flex items-center gap-2 font-caption text-caption">
+<span class="w-3 h-3 rounded-full bg-primary block"></span> Stable
+                        <span class="w-3 h-3 rounded-full bg-warning-amber block ml-2"></span> Monitor
+                        <span class="w-3 h-3 rounded-full bg-error block ml-2"></span> High Risk
+                    </div>
+</div>
+<div class="flex-1 relative w-full h-full bg-[#E5E9E5]">
+<!-- Map Placeholder Image -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-80" data-alt="A top-down view of a highly detailed, modern digital choropleth map of an agricultural region. The map is rendered in a minimalist, clean corporate style. Districts are shaded in varying tones of primary deep green, warning amber, and terracotta red to indicate risk levels. Subtle glowing borders separate regions. High-end data visualization aesthetic, soft shadows." data-location="India Northern Region" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlv3URYxR9x6JJuI1pavbA1OmUV8wzrhAVbQYIX9DhM0X32uPiLFpsi8WEjJnJHSKJsQ9eFgKi7-Y4sXQBwfu51Yo5xg5FtSVn8-XAZuQoqs5sM-wcFk2fA9xF4ZJgG3hDbMW6Ij8-xGnCMD7yY_4tdhAiLzWCnFFGCjameEFz0pAh6LGS0kuXOi4C0Qu926t4ov-DhCN2xMSaNIEftzl6UmAWBBeCO-9Xgsmgzn05mwalApAqkI_yRULcvYLv-1FE-0jko35T1o">
+<!-- Overlay Elements for realism -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
+<!-- Floating Map Controls -->
+<div class="absolute right-4 bottom-4 flex flex-col gap-2 glass-panel rounded-lg p-1">
+<button class="p-2 hover:bg-surface-variant/50 rounded flex items-center justify-center text-primary"><span class="material-symbols-outlined">add</span></button>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<button class="p-2 hover:bg-surface-variant/50 rounded flex items-center justify-center text-primary"><span class="material-symbols-outlined">remove</span></button>
+</div>
+<!-- Example Interactive Tooltip / Marker (simulated) -->
+<div class="absolute top-[40%] left-[30%] cursor-pointer group">
+<div class="w-4 h-4 bg-error rounded-full border-2 border-white shadow-md animate-pulse"></div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 glass-panel rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+<h4 class="font-label-md text-label-md font-bold text-on-surface">District 4 (Red Zone)</h4>
+<p class="font-caption text-caption text-error font-medium mt-1">Crash Risk: High</p>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Wheat prices -12% in 48h</p>
+</div>
+</div>
+<div class="absolute top-[60%] left-[60%] cursor-pointer group">
+<div class="w-4 h-4 bg-primary rounded-full border-2 border-white shadow-md"></div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-40 glass-panel rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+<h4 class="font-label-md text-label-md font-bold text-on-surface">District 7 (Stable)</h4>
+<p class="font-caption text-caption text-primary font-medium mt-1">Normal Trading</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Top Risky Mandis (30%) -->
+<div class="w-full xl:w-[30%] flex flex-col gap-stack-md">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-4 sticky top-stack-lg">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h3 class="font-headline-md text-body-lg font-semibold text-on-surface">Top Risky Mandis</h3>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Markets experiencing significant recent price drops.</p>
+<div class="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-2">
+<!-- Risky Card 1 -->
+<div class="glass-panel rounded-lg p-4 cursor-pointer hover:border-error/50 transition-colors border border-error/20 bg-error-container/20">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Azadpur Mandi</h4>
+<p class="font-caption text-caption text-on-surface-variant">District 4</p>
+</div>
+<span class="bg-error text-on-error font-caption text-[10px] px-2 py-1 rounded-full uppercase tracking-wider font-bold">Critical</span>
+</div>
+<div class="flex justify-between items-end mt-3">
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">Commodity: Wheat</p>
+<p class="font-headline-lg text-body-lg font-bold text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span> ₹2,100/q
+                                    </p>
+</div>
+<div class="text-right">
+<p class="font-caption text-caption text-error font-semibold">-12.4% (48h)</p>
+</div>
+</div>
+</div>
+<!-- Risky Card 2 -->
+<div class="glass-panel rounded-lg p-4 cursor-pointer hover:border-warning-amber/50 transition-colors border border-warning-amber/20 bg-warning-amber/5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Karnal Market</h4>
+<p class="font-caption text-caption text-on-surface-variant">District 2</p>
+</div>
+<span class="bg-warning-amber text-white font-caption text-[10px] px-2 py-1 rounded-full uppercase tracking-wider font-bold">Monitor</span>
+</div>
+<div class="flex justify-between items-end mt-3">
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">Commodity: Rice (Basmati)</p>
+<p class="font-headline-lg text-body-lg font-bold text-warning-amber flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span> ₹3,450/q
+                                    </p>
+</div>
+<div class="text-right">
+<p class="font-caption text-caption text-warning-amber font-semibold">-5.2% (24h)</p>
+</div>
+</div>
+</div>
+<!-- Risky Card 3 -->
+<div class="glass-panel rounded-lg p-4 cursor-pointer hover:border-warning-amber/50 transition-colors border border-warning-amber/20 bg-warning-amber/5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Rohtak Mandi</h4>
+<p class="font-caption text-caption text-on-surface-variant">District 6</p>
+</div>
+<span class="bg-warning-amber text-white font-caption text-[10px] px-2 py-1 rounded-full uppercase tracking-wider font-bold">Monitor</span>
+</div>
+<div class="flex justify-between items-end mt-3">
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">Commodity: Mustard</p>
+<p class="font-headline-lg text-body-lg font-bold text-warning-amber flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span> ₹4,800/q
+                                    </p>
+</div>
+<div class="text-right">
+<p class="font-caption text-caption text-warning-amber font-semibold">-4.1% (72h)</p>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 border border-outline rounded-lg text-primary font-label-md text-label-md hover:bg-surface-variant/50 transition-colors">
+                        View Full Risk Report
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-gutter pb-safe bg-surface/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg rounded-t-xl docked full-width bottom-0">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">home</span>
+<span class="font-label-md text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-md text-[10px] mt-1 font-bold">Mandi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">notifications</span>
+<span class="font-label-md text-[10px] mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">chat_bubble</span>
+<span class="font-label-md text-[10px] mt-1">Chat</span>
+</a>
+</nav>
+
+
+</body></html>
