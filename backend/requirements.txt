@@ -7,3 +7,4 @@ google-genai
 google-cloud-bigquery
 httpx
 pytest
+db-dtypes
