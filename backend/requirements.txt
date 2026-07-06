@@ -1,5 +1,9 @@
 fastapi
 uvicorn
 python-multipart
-# cudf
-# cuml
+pandas
+python-dotenv
+google-genai
+google-cloud-bigquery
+httpx
+pytest

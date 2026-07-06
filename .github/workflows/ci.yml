@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install ruff mypy pytest httpx pandas fastapi uvicorn google-genai
+        pip install -r backend/requirements.txt ruff mypy
 
     - name: Run Ruff Linter
       run: ruff check backend/ --ignore E501
