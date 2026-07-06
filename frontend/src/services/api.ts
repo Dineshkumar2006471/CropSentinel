@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export const api = {
   // Mock endpoint for farmer's crop data
   async getFarmerProfile(_farmerId: string) {
@@ -39,7 +41,7 @@ export const api = {
       { id: 3, name: "Local APMC", distance: 10, price: 1200, trend: "down" }
     ];
   },
-
+ 
   // Desktop: Distress-Risk Watch Alerts
   async getDistressAlerts() {
     return [
@@ -49,7 +51,7 @@ export const api = {
       { id: "ALT-995", mandi: "Lasalgaon", state: "Maharashtra", crop: "Onion", currentPrice: 900, trend: -18, forecastPrice: 750, riskScore: 92, status: "High Risk" }
     ];
   },
-
+ 
   // Desktop: Market Heatmap Data
   async getMarketHeatmap() {
     return [
@@ -59,17 +61,17 @@ export const api = {
       { region: "Andhra Pradesh", status: "Stable", volume: "320k", trend: 2.4 }
     ];
   },
-
+ 
   // Real-time Dashboard Metrics
   async getDashboardMetrics() {
-    const res = await fetch("http://localhost:8000/api/dashboard/metrics");
+    const res = await fetch(`${API_URL}/api/dashboard/metrics`);
     if (!res.ok) throw new Error("Failed to fetch dashboard metrics");
     return res.json();
   },
-
+ 
   // Real-time Dashboard AI Brief
   async getDashboardAIBrief() {
-    const res = await fetch("http://localhost:8000/api/dashboard/ai-brief");
+    const res = await fetch(`${API_URL}/api/dashboard/ai-brief`);
     if (!res.ok) throw new Error("Failed to fetch dashboard AI brief");
     return res.json();
   }
