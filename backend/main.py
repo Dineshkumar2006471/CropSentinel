@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import pandas as pd
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 import datetime
 from pydantic import BaseModel
 import os
