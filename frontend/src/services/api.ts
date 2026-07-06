@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// Use relative paths to rely on Vite's dev proxy or server.js production proxy
 
 export const api = {
   // Mock endpoint for farmer's crop data
@@ -64,14 +64,14 @@ export const api = {
  
   // Real-time Dashboard Metrics
   async getDashboardMetrics() {
-    const res = await fetch(`${API_URL}/api/dashboard/metrics`);
+    const res = await fetch(`/api/dashboard/metrics`);
     if (!res.ok) throw new Error("Failed to fetch dashboard metrics");
     return res.json();
   },
  
   // Real-time Dashboard AI Brief
   async getDashboardAIBrief() {
-    const res = await fetch(`${API_URL}/api/dashboard/ai-brief`);
+    const res = await fetch(`/api/dashboard/ai-brief`);
     if (!res.ok) throw new Error("Failed to fetch dashboard AI brief");
     return res.json();
   }
