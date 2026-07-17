@@ -29,48 +29,57 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         <div 
           className="h-[80px] px-24 flex items-center gap-12 cursor-pointer border-b border-stone/10 hover:bg-stone/5 transition-colors"
           onClick={() => navigate('/')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter') navigate('/'); }}
+          aria-label="Go to home"
         >
           <img src="/logo-cs.png" alt="CropSentinel Logo" className="h-[48px] w-auto object-contain" />
         </div>
         
-        <nav className="flex-1 px-16 py-24 flex flex-col gap-8">
+        <nav className="flex-1 px-16 py-24 flex flex-col gap-8" aria-label="Main navigation">
           <button 
             className={getMenuClass(["/admin/dashboard", "/admin"])}
             onClick={() => navigate('/admin/dashboard')}
+            aria-current={["/admin/dashboard", "/admin"].includes(path) ? "page" : undefined}
           >
-            <span className="material-symbols-outlined text-[20px]">grid_view</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">grid_view</span>
             <span className="text-[14px] font-bold">Overview</span>
           </button>
           
           <button 
             className={getMenuClass(["/ask", "/admin/ask"])}
             onClick={() => navigate('/ask')}
+            aria-current={["/ask", "/admin/ask"].includes(path) ? "page" : undefined}
           >
-            <span className="material-symbols-outlined text-[20px]">chat</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">chat</span>
             <span className="text-[14px] font-medium">Ask CropSentinel</span>
           </button>
 
           <button 
             className={getMenuClass(["/admin/map"])}
             onClick={() => navigate('/admin/map')}
+            aria-current={["/admin/map"].includes(path) ? "page" : undefined}
           >
-            <span className="material-symbols-outlined text-[20px]">map</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">map</span>
             <span className="text-[14px] font-medium">Mandi Map</span>
           </button>
           
           <button 
             className={getMenuClass(["/admin/trackers"])}
             onClick={() => navigate('/admin/trackers')}
+            aria-current={["/admin/trackers"].includes(path) ? "page" : undefined}
           >
-            <span className="material-symbols-outlined text-[20px]">notifications_active</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">notifications_active</span>
             <span className="text-[14px] font-medium">My Trackers</span>
           </button>
 
           <button 
             className={getMenuClass(["/benchmarks"])}
             onClick={() => navigate('/benchmarks')}
+            aria-current={["/benchmarks"].includes(path) ? "page" : undefined}
           >
-            <span className="material-symbols-outlined text-[20px]">speed</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">speed</span>
             <span className="text-[14px] font-medium">GPU Benchmarks</span>
           </button>
         </nav>
@@ -98,25 +107,25 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone/20 flex lg:hidden items-center justify-around h-[60px] px-8 z-50">
-        <button className={getMobileMenuClass(["/admin/dashboard", "/admin"])} onClick={() => navigate('/admin/dashboard')}>
-          <span className="material-symbols-outlined text-[24px]">grid_view</span>
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone/20 flex lg:hidden items-center justify-around h-[60px] px-8 z-50" aria-label="Mobile navigation">
+        <button className={getMobileMenuClass(["/admin/dashboard", "/admin"])} onClick={() => navigate('/admin/dashboard')} aria-current={["/admin/dashboard", "/admin"].includes(path) ? "page" : undefined}>
+          <span className="material-symbols-outlined text-[24px]" aria-hidden="true">grid_view</span>
           <span className="text-[10px] font-medium">Overview</span>
         </button>
-        <button className={getMobileMenuClass(["/ask", "/admin/ask"])} onClick={() => navigate('/ask')}>
-          <span className="material-symbols-outlined text-[24px]">chat</span>
+        <button className={getMobileMenuClass(["/ask", "/admin/ask"])} onClick={() => navigate('/ask')} aria-current={["/ask", "/admin/ask"].includes(path) ? "page" : undefined}>
+          <span className="material-symbols-outlined text-[24px]" aria-hidden="true">chat</span>
           <span className="text-[10px] font-medium">Ask</span>
         </button>
-        <button className={getMobileMenuClass(["/admin/map"])} onClick={() => navigate('/admin/map')}>
-          <span className="material-symbols-outlined text-[24px]">map</span>
+        <button className={getMobileMenuClass(["/admin/map"])} onClick={() => navigate('/admin/map')} aria-current={["/admin/map"].includes(path) ? "page" : undefined}>
+          <span className="material-symbols-outlined text-[24px]" aria-hidden="true">map</span>
           <span className="text-[10px] font-medium">Map</span>
         </button>
-        <button className={getMobileMenuClass(["/admin/trackers"])} onClick={() => navigate('/admin/trackers')}>
-          <span className="material-symbols-outlined text-[24px]">notifications_active</span>
+        <button className={getMobileMenuClass(["/admin/trackers"])} onClick={() => navigate('/admin/trackers')} aria-current={["/admin/trackers"].includes(path) ? "page" : undefined}>
+          <span className="material-symbols-outlined text-[24px]" aria-hidden="true">notifications_active</span>
           <span className="text-[10px] font-medium">Trackers</span>
         </button>
-        <button className={getMobileMenuClass(["/benchmarks"])} onClick={() => navigate('/benchmarks')}>
-          <span className="material-symbols-outlined text-[24px]">speed</span>
+        <button className={getMobileMenuClass(["/benchmarks"])} onClick={() => navigate('/benchmarks')} aria-current={["/benchmarks"].includes(path) ? "page" : undefined}>
+          <span className="material-symbols-outlined text-[24px]" aria-hidden="true">speed</span>
           <span className="text-[10px] font-medium">Speed</span>
         </button>
       </nav>

@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import { api } from '../services/api';
+import type { MapMarket } from '../services/api';
 
 const mapContainerStyle = {
   width: '100%',
@@ -18,19 +20,22 @@ const MandiMap = () => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
   });
 
-  const [markets, setMarkets] = useState<any[]>([]);
-  const [geocodedMarkets, setGeocodedMarkets] = useState<any[]>([]);
+  const [markets, setMarkets] = useState<MapMarket[]>([]);
+  const [geocodedMarkets, setGeocodedMarkets] = useState<(MapMarket & { location: google.maps.LatLngLiteral })[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        const response = await fetch('/api/map');
-        const data = await response.json();
+        setLoading(true);
+        setError(null);
+        const data = await api.getMapData();
         setMarkets(data.markets || []);
-      } catch (e) {
+      } catch (e: any) {
         console.error("Map connection error", e);
+        setError("Failed to load map data. Please ensure the backend is running.");
       } finally {
         setLoading(false);
       }
@@ -80,7 +85,7 @@ const MandiMap = () => {
     });
 
     Promise.all(geocodePromises).then(results => {
-      setGeocodedMarkets(results.filter((r: any) => r.location !== null));
+      setGeocodedMarkets(results.filter((r: any) => r.location !== null) as (MapMarket & { location: google.maps.LatLngLiteral })[]);
     });
 
   }, [isLoaded, markets]);
@@ -108,22 +113,32 @@ const MandiMap = () => {
           </div>
         </div>
 
+        {error && (
+          <div className="bg-chili-vermillion/10 border border-chili-vermillion/20 rounded-[12px] p-24 flex items-center gap-16 mb-24" role="alert">
+            <span className="material-symbols-outlined text-[32px] text-chili-vermillion" aria-hidden="true">error</span>
+            <div className="flex flex-col">
+              <span className="text-[16px] font-bold text-chili-vermillion">Connection Error</span>
+              <span className="text-[14px] text-chili-vermillion/80">{error}</span>
+            </div>
+          </div>
+        )}
+
         <div className="flex-1 bg-white rounded-[12px] border border-stone/10 shadow-sm flex flex-col lg:flex-row overflow-hidden">
           
           {/* Map Area */}
           <div className="flex-1 relative bg-[#E5E3DF] min-h-[400px]">
             {loading ? (
-              <div className="absolute inset-0 flex items-center justify-center z-10">
-                <span className="material-symbols-outlined text-[48px] text-board-green animate-spin">progress_activity</span>
+              <div className="absolute inset-0 flex items-center justify-center z-10" role="status" aria-label="Loading map">
+                <span className="material-symbols-outlined text-[48px] text-board-green animate-spin" aria-hidden="true">progress_activity</span>
               </div>
-            ) : isLoaded ? (
+            ) : isLoaded && !error ? (
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 center={defaultCenter}
                 zoom={5}
                 options={mapOptions}
               >
-                {geocodedMarkets.map((m: any, i: number) => (
+                {geocodedMarkets.map((m, i) => (
                   <Marker
                     key={i}
                     position={m.location}
@@ -133,7 +148,7 @@ const MandiMap = () => {
                       <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                         <div className="p-4">
                           <p className="font-bold text-soil-ink">{m.market}, {m.district}</p>
-                          <p className="text-board-green font-bold">₹{m.price}/q</p>
+                          <p className="text-board-green font-bold">₹{m.price.toFixed(2)}/q</p>
                           <p className="text-stone text-[12px]">{m.commodity}</p>
                         </div>
                       </InfoWindow>
@@ -141,11 +156,11 @@ const MandiMap = () => {
                   </Marker>
                 ))}
               </GoogleMap>
-            ) : (
+            ) : !isLoaded && !error ? (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <p className="text-stone">Loading Map Engine...</p>
               </div>
-            )}
+            ) : null}
           </div>
 
           {/* Sidebar Info Area */}
@@ -158,20 +173,26 @@ const MandiMap = () => {
             <div className="flex-1 overflow-y-auto p-24 flex flex-col gap-16">
               {loading ? (
                 <p className="text-[13px] text-stone">Loading market data...</p>
+              ) : error ? (
+                <p className="text-[13px] text-chili-vermillion">Data unavailable</p>
               ) : markets.length === 0 ? (
                 <p className="text-[13px] text-stone">No active data.</p>
               ) : (
-                markets.map((m: any, i: number) => (
+                markets.map((m, i) => (
                   <div 
                     key={i} 
                     className={`p-16 border rounded-[8px] flex flex-col transition-colors cursor-pointer ${activeMarker === i ? 'border-board-green bg-board-green/5' : 'border-stone/20 hover:border-board-green'}`}
                     onClick={() => setActiveMarker(i)}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={activeMarker === i}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setActiveMarker(i); }}
                   >
                     <span className="text-[11px] font-bold text-stone uppercase tracking-widest">{m.commodity}</span>
                     <span className="font-bold text-[18px] text-soil-ink mb-4">{m.market}, {m.district}</span>
                     <div className="flex justify-between items-end mt-8">
                       <span className="text-[12px] text-stone">Current Price</span>
-                      <span className="font-bold text-[18px] text-board-green">₹{m.price}<span className="text-[14px] font-normal text-stone">/q</span></span>
+                      <span className="font-bold text-[18px] text-board-green">₹{m.price.toFixed(2)}<span className="text-[14px] font-normal text-stone">/q</span></span>
                     </div>
                   </div>
                 ))

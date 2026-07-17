@@ -13,7 +13,8 @@ export default {
         "turmeric-gold": "#DE9F2E",
         "chili-vermillion": "#BF3C2B",
         "soil-ink": "#2A2116",
-        "stone": "#8C8573"
+        "stone": "#8C8573",
+        "stone-accessible": "#5C5647"
       },
       borderRadius: {
         none: "0px",

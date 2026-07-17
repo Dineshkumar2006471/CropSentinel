@@ -23,6 +23,14 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
+const SECURITY_HEADERS = {
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+  'X-Frame-Options': 'DENY',
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Content-Security-Policy': "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://maps.googleapis.com https://*.googleapis.com;"
+};
+
 const server = http.createServer((req, res) => {
   // If request is for /api, proxy it to the backend
   if (req.url.startsWith('/api/')) {
@@ -70,19 +78,19 @@ const server = http.createServer((req, res) => {
         // Fallback to index.html for Single Page Application client-side routing
         fs.readFile(path.join(PUBLIC_DIR, 'index.html'), (err2, indexContent) => {
           if (err2) {
-            res.writeHead(500);
+            res.writeHead(500, SECURITY_HEADERS);
             res.end('Error loading index.html');
           } else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.writeHead(200, { 'Content-Type': 'text/html', ...SECURITY_HEADERS });
             res.end(indexContent, 'utf-8');
           }
         });
       } else {
-        res.writeHead(500);
+        res.writeHead(500, SECURITY_HEADERS);
         res.end(`Server Error: ${err.code}`);
       }
     } else {
-      res.writeHead(200, { 'Content-Type': contentType });
+      res.writeHead(200, { 'Content-Type': contentType, ...SECURITY_HEADERS });
       res.end(content, 'utf-8');
     }
   });

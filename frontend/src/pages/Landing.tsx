@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LiveRateBoard from '../components/LiveRateBoard';
+import { api } from '../services/api';
 
 const Landing = () => {
   const [demoInput, setDemoInput] = useState('');
@@ -15,15 +16,11 @@ const Landing = () => {
     setIsDemoLoading(true);
     setDemoResponse(null);
     try {
-      const res = await fetch('/api/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query })
-      });
-      const data = await res.json();
-      setDemoResponse(data.response);
-    } catch {
-      setDemoResponse("Error connecting to AI backend.");
+      const response = await api.askCropSentinel(query);
+      setDemoResponse(response.response);
+    } catch (err: any) {
+      console.error("Ask API error", err);
+      setDemoResponse("Error connecting to live CropSentinel data engine.");
     } finally {
       setIsDemoLoading(false);
     }
@@ -111,11 +108,12 @@ const Landing = () => {
                       type="submit" 
                       disabled={isDemoLoading}
                       className="bg-turmeric-gold w-[44px] h-[44px] rounded-full flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+                      aria-label="Submit question"
                     >
                       {isDemoLoading ? (
-                        <div className="w-5 h-5 border-2 border-soil-ink border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-5 h-5 border-2 border-soil-ink border-t-transparent rounded-full animate-spin" aria-label="Loading"></div>
                       ) : (
-                        <span className="material-symbols-outlined text-soil-ink text-[20px]">arrow_upward</span>
+                        <span className="material-symbols-outlined text-soil-ink text-[20px]" aria-hidden="true">arrow_upward</span>
                       )}
                     </button>
                   </form>

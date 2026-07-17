@@ -1,34 +1,23 @@
 import { useState, useEffect } from 'react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
-
-interface ForecastData {
-  commodity: string;
-  mandi: string;
-  price: number;
-  trend: number;
-}
+import { api } from '../services/api';
+import type { TopMover } from '../services/api';
 
 const LiveRateBoard = () => {
-  const [forecasts, setForecasts] = useState<ForecastData[]>([]);
+  const [forecasts, setForecasts] = useState<TopMover[]>([]);
   const [lastSynced, setLastSynced] = useState<string>("daily");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/forecast/top-movers").then(res => {
-        if (!res.ok) throw new Error("Failed to fetch forecasts");
-        return res.json();
-      }),
-      fetch("/api/dashboard/metrics").then(res => {
-        if (!res.ok) return { data_freshness: "daily" }; // fallback
-        return res.json();
-      })
+      api.getTopMovers(),
+      api.getDashboardMetrics().catch(() => null),
     ])
     .then(([forecastData, metricsData]) => {
       setForecasts(forecastData);
-      if (metricsData && metricsData.data_freshness) {
-        setLastSynced(metricsData.data_freshness);
+      if (metricsData && 'data_freshness' in metricsData) {
+        setLastSynced((metricsData as Record<string, string>).data_freshness);
       }
       setLoading(false);
     })
@@ -45,9 +34,11 @@ const LiveRateBoard = () => {
       </div>
       
       {loading ? (
-        <div className="text-white font-data animate-pulse">Loading live prices...</div>
+        <div className="text-white font-data animate-pulse" role="status" aria-label="Loading live prices">Loading live prices...</div>
       ) : error ? (
-        <div className="text-[#BF3C2B] font-data font-bold">{error}</div>
+        <div className="text-[#BF3C2B] font-data font-bold" role="alert">{error}</div>
+      ) : forecasts.length === 0 ? (
+        <div className="text-[#E9DFC4] font-data">No live price data available.</div>
       ) : (
         <div className="flex gap-48 items-center overflow-hidden whitespace-nowrap">
           <div className="flex animate-marquee gap-48 text-white font-data text-[18px]">
@@ -59,14 +50,14 @@ const LiveRateBoard = () => {
                 <span className="text-stone">—</span>
                 <span className="font-bold">₹{f.price.toFixed(2)}/q</span>
                 <span className={`font-bold flex items-center ${f.trend > 0 ? 'text-turmeric-gold' : 'text-[#BF3C2B]'}`}>
-                  {f.trend > 0 ? <ArrowUp size={16} className="mr-4" /> : <ArrowDown size={16} className="mr-4" />}
+                  {f.trend > 0 ? <ArrowUp size={16} className="mr-4" aria-hidden="true" /> : <ArrowDown size={16} className="mr-4" aria-hidden="true" />}
                   {Math.abs(f.trend).toFixed(1)}%
                 </span>
               </div>
             ))}
             {/* Duplicate for smooth infinite scroll */}
             {forecasts.map((f, i) => (
-              <div key={`dup-${i}`} className="flex items-center gap-16">
+              <div key={`dup-${i}`} className="flex items-center gap-16" aria-hidden="true">
                 <span className="font-bold text-[#E9DFC4]">{f.commodity}</span>
                 <span className="text-stone">—</span>
                 <span>{f.mandi}</span>

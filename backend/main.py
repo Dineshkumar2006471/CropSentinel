@@ -6,6 +6,7 @@ from typing import Dict, Any, Optional
 import datetime
 from pydantic import BaseModel
 import os
+import html
 from dotenv import load_dotenv
 from google import genai
 
@@ -18,10 +19,14 @@ app = FastAPI(title="FasalSetu API Backend")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=[
+        "http://localhost:8080",
+        "http://localhost:5173",
+        "https://cropsentinel-frontend-763833004328.asia-south1.run.app"
+    ], 
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
 )
 
 # Global variables for data
@@ -226,7 +231,8 @@ def get_recommendation(commodity: str, mandi: Optional[str] = None) -> Dict[str,
 @app.post("/api/ask")
 async def ask_cropsentinel(query: Dict[str, Any]):
     """Dynamic chat endpoint that queries the dataset based on the user's prompt."""
-    user_text = query.get("question", "").lower()
+    raw_question = query.get("question", "")
+    user_text = html.escape(raw_question).lower()
     history = query.get("history", [])
     
     if df is None or df.empty:
@@ -388,14 +394,16 @@ def get_trackers():
 
 @app.post('/api/trackers')
 def add_tracker(req: TrackerAddRequest):
-    if req.commodity.lower() not in [t.lower() for t in user_trackers]:
-        user_trackers.append(req.commodity)
+    safe_commodity = html.escape(req.commodity.strip())
+    if safe_commodity.lower() not in [t.lower() for t in user_trackers]:
+        user_trackers.append(safe_commodity)
     return {"status": "success", "trackers": user_trackers}
 
 @app.delete('/api/trackers/{commodity}')
 def delete_tracker(commodity: str):
     global user_trackers
-    user_trackers = [t for t in user_trackers if t.lower() != commodity.lower()]
+    safe_commodity = html.escape(commodity.strip())
+    user_trackers = [t for t in user_trackers if t.lower() != safe_commodity.lower()]
     return {"status": "success", "trackers": user_trackers}
 
 @app.get("/api/forecast/top-movers")

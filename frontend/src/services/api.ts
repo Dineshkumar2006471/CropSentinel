@@ -1,78 +1,152 @@
-// Use relative paths to rely on Vite's dev proxy or server.js production proxy
+// Centralized API service — all methods call the real backend (no mock data)
+
+const API_TIMEOUT_MS = 10_000;
+
+/** Centralized fetch wrapper with timeout and error handling */
+async function apiFetch<T>(url: string, options?: RequestInit): Promise<T> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+
+  try {
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`API error ${res.status}: ${res.statusText}`);
+    }
+
+    return await res.json() as T;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+// ─── Response Interfaces ─────────────────────────────────────────────
+
+export interface MetricItem {
+  value: string;
+  subtitle: string;
+  trend: 'up' | 'down' | 'neutral';
+}
+
+export interface DashboardMetrics {
+  total_farmers: MetricItem;
+  crops_tracked: MetricItem;
+  alerts_generated: MetricItem;
+  distress_markets: MetricItem;
+  prediction_accuracy: MetricItem;
+  loss_prevented: MetricItem;
+}
+
+export interface AIBrief {
+  date_week: string;
+  anomaly_detected: string;
+  recommendation: string;
+  alert: string;
+}
+
+export interface TopMover {
+  commodity: string;
+  mandi: string;
+  price: number;
+  trend: number;
+}
+
+export interface MapMarket {
+  market: string;
+  district: string;
+  commodity: string;
+  price: number;
+  risk_score: number;
+}
+
+export interface TrackerItem {
+  commodity: string;
+  avg_price: string;
+  status: string;
+}
+
+export interface RecommendationResult {
+  commodity: string;
+  mandi: string;
+  current_price: number;
+  predicted_price_7d: number;
+  trend_pct: number;
+  risk_score: number;
+  action: 'sell' | 'hold' | 'relocate';
+  reason: string;
+  data_freshness: string;
+}
+
+export interface AskResponse {
+  intent: string;
+  response: string;
+}
+
+// ─── API Methods ─────────────────────────────────────────────────────
 
 export const api = {
-  // Mock endpoint for farmer's crop data
-  async getFarmerProfile(_farmerId: string) {
-    return {
-      name: "Ramesh Kumar",
-      crops: [
-        { name: "Wheat", riskLevel: "low", priceTrend: "up" },
-        { name: "Potato", riskLevel: "high", priceTrend: "down" }
-      ]
-    };
+  /** Real-time dashboard metrics from BigQuery */
+  async getDashboardMetrics(): Promise<DashboardMetrics> {
+    return apiFetch<DashboardMetrics>('/api/dashboard/metrics');
   },
-  
-  // Real-time chatbot processing
-  async processVoiceCommand(_audioBlob: Blob) {
-    return {
-      text: "Is it a good time to sell potatoes?",
-      intent: "price_inquiry",
-      response: "Current market trends show a sharp decline in potato prices locally, but neighboring mandis are offering better rates. Let me check the mandi map for you."
-    };
+
+  /** AI-generated market brief from BigQuery risk data */
+  async getDashboardAIBrief(): Promise<AIBrief> {
+    return apiFetch<AIBrief>('/api/dashboard/ai-brief');
   },
-  
-  // BigQuery pre-computed risk data
-  async getRecommendation(_crop: string, _location: string) {
-    return {
-      verdict: "RELOCATE",
-      confidence: 89,
-      localPrice: 1200,
-      relocatePrice: 1600,
-      transportCost: 150,
-      netGain: 250
-    };
+
+  /** Top commodity price movements from forecast table */
+  async getTopMovers(): Promise<TopMover[]> {
+    return apiFetch<TopMover[]>('/api/forecast/top-movers');
   },
-  
-  // Nearest Mandi Map real-time pricing
-  async getMandiPrices(_crop: string) {
-    return [
-      { id: 1, name: "Azadpur Mandi", distance: 45, price: 1600, trend: "up" },
-      { id: 2, name: "Ghazipur Mandi", distance: 55, price: 1550, trend: "stable" },
-      { id: 3, name: "Local APMC", distance: 10, price: 1200, trend: "down" }
-    ];
+
+  /** Map data — top risk markets with coordinates */
+  async getMapData(): Promise<{ markets: MapMarket[] }> {
+    return apiFetch<{ markets: MapMarket[] }>('/api/map');
   },
- 
-  // Desktop: Distress-Risk Watch Alerts
-  async getDistressAlerts() {
-    return [
-      { id: "ALT-992", mandi: "Azadpur Mandi", state: "Delhi", crop: "Onion", currentPrice: 1250, trend: -12, forecastPrice: 1100, riskScore: 85, status: "High Risk" },
-      { id: "ALT-993", mandi: "Karnal Mandi", state: "Haryana", crop: "Wheat", currentPrice: 2125, trend: -4, forecastPrice: 2050, riskScore: 60, status: "Watch" },
-      { id: "ALT-994", mandi: "Khanna Mandi", state: "Punjab", crop: "Rice", currentPrice: 3200, trend: 1.5, forecastPrice: 3250, riskScore: 25, status: "Stable" },
-      { id: "ALT-995", mandi: "Lasalgaon", state: "Maharashtra", crop: "Onion", currentPrice: 900, trend: -18, forecastPrice: 750, riskScore: 92, status: "High Risk" }
-    ];
+
+  /** Get user commodity trackers */
+  async getTrackers(): Promise<{ trackers: TrackerItem[] }> {
+    return apiFetch<{ trackers: TrackerItem[] }>('/api/trackers');
   },
- 
-  // Desktop: Market Heatmap Data
-  async getMarketHeatmap() {
-    return [
-      { region: "Maharashtra", status: "Critical", volume: "450k", trend: -12.5 },
-      { region: "Karnataka", status: "Stable", volume: "210k", trend: 1.2 },
-      { region: "Punjab", status: "Warning", volume: "890k", trend: -4.3 },
-      { region: "Andhra Pradesh", status: "Stable", volume: "320k", trend: 2.4 }
-    ];
+
+  /** Add a new commodity tracker */
+  async addTracker(commodity: string): Promise<{ status: string; trackers: string[] }> {
+    return apiFetch('/api/trackers', {
+      method: 'POST',
+      body: JSON.stringify({ commodity }),
+    });
   },
- 
-  // Real-time Dashboard Metrics
-  async getDashboardMetrics() {
-    const res = await fetch(`/api/dashboard/metrics`);
-    if (!res.ok) throw new Error("Failed to fetch dashboard metrics");
-    return res.json();
+
+  /** Remove a commodity tracker */
+  async deleteTracker(commodity: string): Promise<{ status: string; trackers: string[] }> {
+    return apiFetch(`/api/trackers/${encodeURIComponent(commodity)}`, {
+      method: 'DELETE',
+    });
   },
- 
-  // Real-time Dashboard AI Brief
-  async getDashboardAIBrief() {
-    const res = await fetch(`/api/dashboard/ai-brief`);
-    if (!res.ok) throw new Error("Failed to fetch dashboard AI brief");
-    return res.json();
-  }
+
+  /** Get sell/hold/relocate recommendation for a commodity */
+  async getRecommendation(commodity: string, mandi?: string): Promise<RecommendationResult> {
+    const params = new URLSearchParams({ commodity });
+    if (mandi) params.set('mandi', mandi);
+    return apiFetch<RecommendationResult>(`/api/recommend?${params.toString()}`);
+  },
+
+  /** Conversational AI query — grounded in BigQuery data via Gemini */
+  async askCropSentinel(
+    question: string,
+    history: { role: string; parts: string[] }[] = []
+  ): Promise<AskResponse> {
+    return apiFetch<AskResponse>('/api/ask', {
+      method: 'POST',
+      body: JSON.stringify({ question, history }),
+    });
+  },
 };

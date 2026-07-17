@@ -154,7 +154,6 @@ The frontend is divided into six core high-fidelity interfaces. Interactive HTML
 
 *   **GPU Overhead on Small Data:** As shown in Section 3, executing feature engineering on GPU via cuDF yields higher execution time than CPU for our current prototype dataset scale (~61.9k rows) due to memory transfer cost.
 *   **Stale Data Warnings:** Forecast model runs older than 30 days are honestly flagged as `Stale` in the UI to prevent misleading recommendations when ingestion pipelines lag.
-*   **Contrast Ratio Warnings:** The UI theme token `stone` (`#8C8573`) when rendered against `kraft-paper` (`#E9DFC4`) has a contrast ratio of **2.77:1**, which falls short of the WCAG AA requirement of 4.5:1 for small text. Developers should use `soil-ink` (`#2A2116`, 11.91:1) or `board-green` (`#26392E`, 9.27:1) for readable text.
 
 ---
 
@@ -212,3 +211,35 @@ Follow these instructions to run the frontend and backend locally in a clean dev
     npm run dev
     ```
 5.  Access the web application at `http://localhost:5173`.
+
+---
+
+## 9. Cloud Run Deployment
+
+Since FasalSetu is designed for high availability and serverless scaling, both the frontend and backend are deployed on Google Cloud Run. 
+
+### Deploying the Backend
+```bash
+cd backend
+gcloud run deploy cropsentinel-backend \
+  --source . \
+  --region asia-south1 \
+  --allow-unauthenticated \
+  --set-env-vars="GCP_PROJECT_ID=fasalsetu-501307,GCP_REGION=asia-south1"
+```
+
+### Deploying the Frontend
+```bash
+cd frontend
+# Build the production assets
+npm run build
+
+# Deploy using the custom server.js proxy
+gcloud run deploy cropsentinel-frontend \
+  --source . \
+  --region asia-south1 \
+  --allow-unauthenticated \
+  --set-env-vars="VITE_API_URL=https://cropsentinel-backend-763833004328.asia-south1.run.app"
+```
+
+> **Note on Billing:** Cloud Run requires an active billing account. If you encounter a `Server Error: The service you requested is not available yet`, verify that your GCP billing account is active and linked to the `fasalsetu-501307` project.
